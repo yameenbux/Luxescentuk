@@ -2,8 +2,8 @@
    LuxeScent UK
    ------------------------------------------------------------
    Everything on the page is generated from the SCENTS array
-   below. Add, remove or reorder a scent here and the rail, the
-   grid, the Scent Finder and the quick view all follow.
+   below. Add, remove or reorder a scent here and the collection
+   grid, the filters, the Scent Finder and the quick view follow.
    Key notes are verbatim from LuxeScent's own scent cards.
    ============================================================ */
 
@@ -63,11 +63,12 @@ const SCENTS = [
     line:"Citrus and sandalwood. Crisp, tailored, understated." }
 ];
 
+/* names used by the filter chips and the Scent Finder result */
 const FAMILIES = [
-  { key:"fresh", name:"Fresh",          blurb:"Citrus · Marine",   image:"family-fresh.jpg" },
-  { key:"woody", name:"Woody",          blurb:"Cedar · Oud",       image:"family-woody.jpg" },
-  { key:"amber", name:"Amber & Spice",  blurb:"Leather · Tonka",   image:"family-amber.jpg" },
-  { key:"sweet", name:"Sweet & Floral", blurb:"Vanilla · Jasmine", image:"family-sweet.jpg" }
+  { key:"fresh", name:"Fresh" },
+  { key:"woody", name:"Woody" },
+  { key:"amber", name:"Amber & Spice" },
+  { key:"sweet", name:"Sweet & Floral" }
 ];
 
 const byId = id => SCENTS.find(s => s.id === id);
@@ -107,10 +108,10 @@ function vessel(glass, cls = "vessel"){
   </svg>`;
 }
 
-/* ── card markup, shared by the rail and the grid ─────────── */
-function cardHTML(s, reveal = true){
+/* ── card markup ──────────────────────────────────────────── */
+function cardHTML(s){
   return `
-  <article class="card ${reveal ? "reveal" : ""}" data-family="${s.family.join(" ")}" data-id="${s.id}">
+  <article class="card reveal" data-family="${s.family.join(" ")}" data-id="${s.id}">
     ${s.badge ? `<span class="card__badge">${s.badge}</span>` : ""}
     <div class="card__vessel">${vessel(s.glass)}</div>
     <h3 class="card__name">${s.name}</h3>
@@ -127,24 +128,9 @@ function cardHTML(s, reveal = true){
   </article>`;
 }
 
-/* ── render: rail, grid, families ─────────────────────────── */
-const rail = document.getElementById("rail");
-if (rail) rail.innerHTML = SCENTS.map(s => cardHTML(s, false)).join("");
-
+/* ── render the collection ────────────────────────────────── */
 const grid = document.getElementById("grid");
 if (grid) grid.innerHTML = SCENTS.map(s => cardHTML(s)).join("");
-
-const famGrid = document.getElementById("families-grid");
-if (famGrid) {
-  famGrid.innerHTML = FAMILIES.map(f => `
-    <a class="family reveal" href="#collection" data-family-link="${f.key}">
-      <div class="family__media media" data-ph="${f.name}">
-        <img src="assets/images/${f.image}" alt="${f.name} fragrances" loading="lazy" data-fallback>
-      </div>
-      <h3>${f.name}</h3>
-      <p>${f.blurb}</p>
-    </a>`).join("");
-}
 
 /* ── image fallback → labelled block ──────────────────────── */
 function wireFallbacks(root = document){
@@ -170,17 +156,6 @@ function applyFilter(key){
 }
 document.querySelectorAll(".chip").forEach(chip =>
   chip.addEventListener("click", () => applyFilter(chip.dataset.filter)));
-
-/* family tile → jump to the collection with that filter applied */
-document.querySelectorAll("[data-family-link]").forEach(a =>
-  a.addEventListener("click", () => applyFilter(a.dataset.familyLink)));
-
-/* ── favourites rail arrows ───────────────────────────────── */
-document.querySelectorAll("[data-rail]").forEach(btn =>
-  btn.addEventListener("click", () => {
-    const step = rail.clientWidth * 0.8 * Number(btn.dataset.rail);
-    rail.scrollBy({ left: step, behavior: "smooth" });
-  }));
 
 /* ── quick view ───────────────────────────────────────────── */
 const modal     = document.getElementById("modal");
