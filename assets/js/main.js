@@ -1,47 +1,70 @@
 /* ============================================================
-   LuxeScent UK — foundation script
+   LuxeScent UK
    ------------------------------------------------------------
-   EDIT THE COLLECTION HERE. Everything on the page (grid,
-   filters, links, images) is generated from the SCENTS array.
+   EDIT THE COLLECTION HERE. The grid, the filters and the buy
+   links are all generated from the SCENTS array below.
+   Key notes are taken verbatim from LuxeScent's own scent cards.
    ============================================================ */
 
 const ETSY_SHOP    = "https://www.etsy.com/uk/shop/LuxeScentUK";
 const ETSY_LISTING = "https://www.etsy.com/uk/listing/4482755390/";
+const INSTAGRAM    = "https://www.instagram.com/luxescentuk";
 const PRICE        = "£8.79";
 
-/* family: fresh | woody | amber | sweet   (must match the filter chips)
-   image:  file placed in assets/images/  — missing files fall back
-           to a labelled placeholder automatically.               */
+/* family: fresh | woody | amber | sweet   (must match the chips)
+   tint:   the wash behind each tile — keep these subtle          */
 const SCENTS = [
-  { name:"Imperium",     inspired:"Inspired by Invictus",        family:["fresh","amber"], notes:"Grapefruit, sea salt and ambergris — clean, sporty, unmistakably masculine.",  image:"scent-imperium.jpg",  badge:"Bestseller" },
-  { name:"Proventus",    inspired:"Inspired by Creed Aventus",   family:["woody","fresh"], notes:"Blackcurrant and bergamot over smoky birch and oakmoss.",                        image:"scent-proventus.jpg", badge:"Bestseller" },
-  { name:"Efferus",      inspired:"Inspired by Sauvage",         family:["fresh","amber"], notes:"Bright pepper and bergamot with a warm ambroxan trail.",                         image:"scent-efferus.jpg" },
-  { name:"Ciel Bleu",    inspired:"Inspired by Bleu de Chanel",  family:["fresh","woody"], notes:"Citrus, mint and cedar — crisp, tailored, understated.",                         image:"scent-ciel-bleu.jpg" },
-  { name:"Aurum",        inspired:"Inspired by One Million",     family:["amber","sweet"], notes:"Blood orange and cinnamon over leather and amber.",                              image:"scent-aurum.jpg" },
-  { name:"Oud Eminence", inspired:"Inspired by Oud Wood",        family:["woody"],         notes:"Rare oud, sandalwood and vanilla — deep, resinous, quietly opulent.",            image:"scent-oud.jpg",       badge:"Rich" },
-  { name:"Noir",         inspired:"A LuxeScent original",        family:["woody","amber"], notes:"Smoked woods, tonka and black pepper. Our darkest blend.",                       image:"scent-noir.jpg",      badge:"House blend" },
-  { name:"Noir Bloom",   inspired:"Inspired by Black Opium",     family:["sweet"],         notes:"Black coffee, white florals and vanilla — warm and addictive.",                   image:"scent-noir-bloom.jpg" },
-  { name:"Eris",         inspired:"Inspired by Olympea",         family:["sweet","amber"], notes:"Salted vanilla, jasmine and green mandarin.",                                    image:"scent-eris.jpg" }
+  { name:"Imperium", inspired:"Inspired by Invictus", family:["fresh","woody"], badge:"Bestseller",
+    notes:"Grapefruit, Mandarin Orange, Marine Accord, Gaiac Wood, Patchouli and Ambergris",
+    tint:"rgba(147,162,184,.26)" },
+
+  { name:"Aurum", inspired:"Inspired by One Million", family:["amber","sweet"],
+    notes:"Blood Mandarin, Woody Cinnamon, Leather, Amber, Peppermint and Patchouli",
+    tint:"rgba(196,150,96,.22)" },
+
+  { name:"Proventus", inspired:"Inspired by Creed Aventus", family:["woody","fresh"], badge:"Bestseller",
+    notes:"Lemon, Pink Pepper, Apple, Bergamot, Blackcurrant, Pineapple, Jasmine, Patchouli, Birch, Cedarwood, Oakmoss and Musk",
+    tint:"rgba(126,150,132,.22)" },
+
+  { name:"Noir Bloom", inspired:"Inspired by Black Opium", family:["sweet"],
+    notes:"Pear Accord, Green Mandarin, Jasmine Sambac, Cinnamon Essence, Vanilla Quarter, Black Coffee Accord and Patchouli Heart",
+    tint:"rgba(178,124,150,.22)" },
+
+  { name:"Eris", inspired:"Inspired by Olympea", family:["sweet","amber"],
+    notes:"Amber, Salted Vanilla, Green Tangerine, Water Jasmine, Ginger Flower, Ambergris and Kashmiri Wood",
+    tint:"rgba(190,166,140,.22)" },
+
+  { name:"Oud Eminence", inspired:"Inspired by Oud Wood", family:["woody","amber"], badge:"Richest",
+    notes:"Agarwood, Cardamom, Pink Pepper, Patchouli, Amber, Oud and Tonka Bean",
+    tint:"rgba(150,110,84,.24)" },
+
+  { name:"Noir", inspired:"Inspired by Armani Code", family:["woody","amber"],
+    notes:"Vert de Bergamote, Bergamot Heart, Clary Sage Heart, Resinoid Iris, Tonka Bean and Cedar Wood Heart",
+    tint:"rgba(120,124,136,.24)" },
+
+  { name:"Efferus", inspired:"Inspired by Sauvage", family:["fresh","amber"],
+    notes:"Reggio di Calabria Bergamot, Papua New Guinean Vanilla Extract, Ambroxan and Lavender",
+    tint:"rgba(134,152,178,.24)" },
+
+  { name:"Ciel Bleu", inspired:"Inspired by Bleu de Chanel", family:["fresh","woody"],
+    notes:"New Caledonian Sandalwood, Grapefruit, Lemon, Amber, Cedar and Tonka Bean",
+    tint:"rgba(110,140,180,.26)" }
 ];
 
 /* ── build the grid ───────────────────────────────────────── */
 const grid = document.getElementById("grid");
 if (grid) {
   grid.innerHTML = SCENTS.map(s => `
-    <article class="card" data-family="${s.family.join(" ")}">
-      <div class="card__media media" data-ph="${s.name}">
-        ${s.badge ? `<span class="card__badge">${s.badge}</span>` : ""}
-        <img src="assets/images/${s.image}" alt="${s.name} car diffuser" loading="lazy" data-fallback>
-      </div>
-      <div class="card__body">
-        <h3 class="card__name">${s.name}</h3>
-        <p class="card__insp">${s.inspired}</p>
-        <p class="card__notes">${s.notes}</p>
-        <div class="card__foot">
-          <span class="card__price">${PRICE}</span>
-          <a class="card__buy" href="${ETSY_LISTING}" target="_blank" rel="noopener"
-             aria-label="Buy ${s.name} on Etsy">Buy on Etsy</a>
-        </div>
+    <article class="card reveal" data-family="${s.family.join(" ")}" style="--tint:${s.tint}">
+      <span class="card__badge">${s.badge || ""}</span>
+      <h3 class="card__name">${s.name}</h3>
+      <p class="card__insp">${s.inspired}</p>
+      <div class="card__rule"></div>
+      <p class="card__notes"><b>Key notes</b>${s.notes}</p>
+      <div class="card__foot">
+        <span class="card__price">${PRICE}</span>
+        <a class="card__buy" href="${ETSY_LISTING}" target="_blank" rel="noopener"
+           aria-label="Buy ${s.name} on Etsy">Buy on Etsy</a>
       </div>
     </article>`).join("");
 }
@@ -52,7 +75,7 @@ function wireFallbacks(root = document) {
     const fail = () => {
       const box = img.closest(".media");
       if (box) box.classList.add("is-ph");
-      else img.hidden = true;          // e.g. the logo
+      else img.hidden = true;          // e.g. the optional logo file
       img.remove();
     };
     if (img.complete && img.naturalWidth === 0) fail();
@@ -110,7 +133,7 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
   });
-}, { threshold:.12, rootMargin:"0px 0px -40px" });
+}, { threshold:.1, rootMargin:"0px 0px -40px" });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
 /* ── signup (not yet connected to a provider) ─────────────── */
