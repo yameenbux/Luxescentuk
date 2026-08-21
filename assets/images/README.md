@@ -1,37 +1,48 @@
 # Images
 
-All files below are **already in place** from LuxeScent's own photography,
-cropped and compressed for web. Replace any of them with a same-named file to
-update the site — no code changes needed.
+All files below are already in place, cropped and compressed from LuxeScent's
+own photography. Replace any of them with a same-named file to update the site —
+no code changes needed. Any missing file falls back to a labelled block rather
+than breaking the layout.
 
-| Filename | Used for | Source |
-|---|---|---|
-| `hero.jpg` | full-bleed quote band | range lined up on marble |
-| `product-clear.jpg` | hero image (right column) | stacked trio |
-| `product-dark.jpg` | product section, large plate | range on marble |
-| `detail.jpg` | product section, inset plate | close crop of the clear vessel |
-| `story.jpg` | Our Story section | diffuser on the LUXE velvet pouch |
-| `og-image.jpg` | social share preview (1200×630) | range on marble |
+| Filename | Used for |
+|---|---|
+| `hero.jpg` | homepage hero — composed: the range low in frame, backdrop extended upward for the headline |
+| `band-marble.jpg` | full-bleed quote band |
+| `product-dark.jpg` | The Diffuser — large plate |
+| `detail.jpg` | The Diffuser — inset plate |
+| `gifting.jpg` | Gifting section — the LUXE velvet pouch |
+| `story.jpg` | Our Story |
+| `family-fresh.jpg` · `family-woody.jpg` · `family-amber.jpg` · `family-sweet.jpg` | the four Scent Families tiles |
+| `og-image.jpg` | social share preview (1200x630) |
+| `product-clear.jpg` | spare crop, not currently placed |
 
-## Still to add (optional)
+## Optional, not yet supplied
 
 | Filename | Used for | Suggested size |
 |---|---|---|
-| `logo.png` | header logo — transparent PNG or SVG, dark on light | 400×140 |
-| `favicon.png` | browser tab icon | 512×512 |
+| `logo.png` | header logo — transparent PNG or SVG, dark on light | 400x140 |
+| `favicon.png` | browser tab icon | 512x512 |
 
-Until `logo.png` exists the header falls back to the LUXESCENT wordmark set in
-Antonio, which matches the type on your scent cards and velvet pouch. That is a
-deliberate fallback, not a broken image — if you're happy with it, no logo file
-is needed at all.
+Without `logo.png` the header shows the LUXESCENT wordmark set in Bodoni Moda
+with UNITED KINGDOM beneath it. That is a deliberate fallback, not a broken
+image — if you like it, no logo file is needed.
 
-## Notes
+## The scent cards have no photography
 
-- The nine scent tiles are **typographic**, not photographic — the same
-  treatment as your own scent cards. No per-scent photography is required.
-- If you later shoot per-scent images, add an `image:` field to each object in
-  `assets/js/main.js` and I'll wire the tiles to use them.
-- Keep replacement JPEGs under ~250 KB; GitHub Pages does no image optimisation.
-- Worth shooting next: a diffuser hanging from a rear-view mirror (there is
-  currently no in-car image on the site, and that is the single most persuasive
-  shot for this product).
+Each of the nine cards carries a drawn SVG of the vessel, tinted per blend, not
+a photograph. Nothing to supply. If you later shoot the range scent by scent,
+add an `image:` field to each object in `assets/js/main.js` and the cards can
+switch to photographs.
+
+## Worth shooting next
+
+1. **A diffuser hanging from a rear-view mirror**, in daylight. The site has no
+   in-car image at all, and it is the single most persuasive shot for this
+   product.
+2. **A landscape range shot** with space above the bottles, so the hero can use
+   a real photograph rather than a composed one.
+3. **A hand holding the pouch**, for the Gifting section.
+
+Keep replacement JPEGs under about 250 KB — GitHub Pages does no image
+optimisation.
