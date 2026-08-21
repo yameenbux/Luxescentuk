@@ -83,32 +83,35 @@ the filters, the quick view and the Scent Finder all pick it up automatically.
 
 ## Design notes
 
-Warm near-black ground (`#0D0B09`) with brass (`#C9A961`), inverted to ivory
-(`#F5EFE3`) for The Diffuser, Gifting and Our Story so the photography has
-somewhere bright to sit. Display type is **Antonio** — the condensed cut that
-matches the lettering on the brand's own scent cards and velvet pouch — with
-**Jost** for the interface.
+Two reference sites set the direction: one for the editorial half (warm white
+ground, deep navy type, giant rotated display type, arch-masked photography),
+one for the commercial half (a rounded gradient stage with the product standing
+through the headline, and a shelf of dome-topped product cards along the bottom).
 
-Colour comes from the product itself: each blend carries a `glass` value that
-drives its drawn bottle, its card wash, the hero glow and the collection glow.
-Nine fragrances, nine colours, all derived from one field in the data.
+The **arch** is the signature shape — the hero shelf, all nine collection cards,
+every image frame and the quick-view panel use the same `--arch` radius token.
+Change that one value and the whole site changes shape.
 
-The photography is warm-graded on the way in — the source shots are cool
-blue-white marble. The grade is baked into the JPEGs.
+Palette: warm white `#F7F5F0`, deep navy `#1F3A5F`, sand `#EFE9DC`. The colour
+comes from the product rather than a brand palette — each blend carries a
+`glass` value and a two-stop `grad`, so the hero and the Scent Finder are
+literally tinted by whichever fragrance is on screen. Type is **Jost**
+throughout, 200 to 700; hierarchy is weight and scale, not a second family.
 
-Two decisions worth knowing about:
+**The bottle is drawn, not photographed.** There is no cut-out product shot in
+the set, and a hero like this needs one with a transparent background. The SVG
+in `vessel()` draws the actual vessel — blackened wood cap, woven cord, tinted
+glass with a liquid level and highlights — and takes the tint of whichever blend
+it represents. It scales to any size and weighs nothing. If you ever shoot the
+range cut out on white, that is the single asset that would upgrade this page
+most.
 
-**The scent cards are drawn, not photographed.** There is no per-scent
-photography, and nine identical bottle photos would have looked like a mistake.
-Each card carries an SVG line drawing of the actual vessel, tinted to the
-character of that blend. It scales perfectly, weighs nothing, and gives all nine
-cards a family resemblance. If you shoot per-scent photography later, add an
-`image:` field to each object in `SCENTS` and the cards can use it instead.
+The photography is warm-graded on the way in; the grade is baked into the JPEGs.
 
-**The hero photograph is composed.** Your photography is portrait and tight, and
-a wide cinematic hero doesn't exist in the set. `hero.jpg` takes the range shot,
-sits it low in frame and extends the backdrop upward so the headline has room.
-Replace it with a real landscape photograph when you have one.
+One layout note worth knowing: grid columns are declared `minmax(0,1fr)` rather
+than `1fr` wherever a child can be wider than its column (the hero shelf, the
+editorial type). A plain `1fr` takes its minimum from the widest child and blows
+the column out — that is what caused a horizontal-overflow bug on mobile.
 
 ## Before launch — checklist
 
