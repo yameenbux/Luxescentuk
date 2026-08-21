@@ -1,16 +1,30 @@
 # LuxeScent UK — website
 
-Static one-page site for LuxeScent UK (luxury car diffusers). No build step, no
-dependencies — plain HTML, CSS and one JS file. Deploys to GitHub Pages as-is.
+Static one-page site for [LuxeScent UK](https://www.etsy.com/uk/shop/LuxeScentUK)
+(luxury car diffusers). No build step, no dependencies, no framework — plain
+HTML, CSS and one JS file. Deploys to GitHub Pages as-is.
 
-## Deploy to GitHub Pages
+Repo: https://github.com/yameenbux/Luxescentuk
 
-1. Create a new repo (e.g. `luxescent-uk`) and push these files to `main`.
-2. Repo → **Settings → Pages** → Source: *Deploy from a branch* → `main` / `/ (root)`.
-3. Live in ~1 minute at `https://<username>.github.io/luxescent-uk/`.
-4. Custom domain: Settings → Pages → Custom domain, then add a `CNAME` file
-   containing the domain and point the DNS `CNAME` record at
-   `<username>.github.io`. Tick *Enforce HTTPS*.
+## Push it live
+
+From the folder containing `index.html`:
+
+```bash
+git init
+git add .
+git commit -m "LuxeScent UK site"
+git branch -M main
+git remote add origin https://github.com/yameenbux/Luxescentuk.git
+git push -u origin main
+```
+
+Then: **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)`**.
+Live in about a minute at `https://yameenbux.github.io/Luxescentuk/`.
+
+Custom domain: Settings → Pages → Custom domain, add a `CNAME` file containing
+the domain, point the DNS `CNAME` record at `yameenbux.github.io`, tick
+*Enforce HTTPS*.
 
 ## Structure
 
@@ -18,38 +32,55 @@ dependencies — plain HTML, CSS and one JS file. Deploys to GitHub Pages as-is.
 index.html                 all page markup
 assets/css/styles.css      all styling — design tokens in :root at the top
 assets/js/main.js          scent data + grid, filters, nav, reveals
-assets/images/             drop image files here (see images/README.md)
-build-preview.py           optional: builds single-file preview.html
+assets/images/             brand photography (see images/README.md)
+build-preview.py           optional: builds a single-file preview.html
 ```
 
 ## Editing the essentials
 
 | What | Where |
 |---|---|
-| Scents, notes, prices, badges | `SCENTS` array at the top of `assets/js/main.js` |
-| Etsy links | `ETSY_SHOP` / `ETSY_LISTING` constants, same file |
+| Scents, key notes, prices, badges | `SCENTS` array at the top of `assets/js/main.js` |
+| Etsy / Instagram links | `ETSY_SHOP`, `ETSY_LISTING`, `INSTAGRAM` constants, same file |
 | Colours, fonts, spacing | `:root` block at the top of `styles.css` |
 | Copy, FAQ, reviews, footer | directly in `index.html` |
 
-Adding a scent = adding one object to `SCENTS`. The card, filter behaviour and
-buy link are generated from it.
+Adding a tenth scent means adding one object to `SCENTS` — the tile, the filter
+behaviour and the buy link all follow.
+
+## Design notes
+
+Palette and type are pulled from LuxeScent's own assets rather than from any
+reference site: marble white ground (`#F7F6F4`), the blackened wood cap as
+near-black (`#0B0B0C`), and the smoked navy glass as the accent (`#2E3A4E` /
+`#93A2B8`). Display type is **Antonio** — the closest Google Font to the
+condensed face on the scent cards and velvet pouch — with **Montserrat** for
+body copy.
+
+The nine scent tiles are typographic rather than photographic, mirroring the
+brand's own scent cards. That is a deliberate choice: it needs no per-scent
+photography and it reads as one system.
 
 ## Before launch — checklist
 
-- [ ] Add real images (`assets/images/README.md` lists exact filenames)
 - [ ] Replace placeholder review text with verbatim Etsy reviews + first names
 - [ ] Set a real contact email in the footer (currently `hello@luxescent.co.uk`)
 - [ ] Connect the signup form to Formspree / Mailchimp / Beehiiv
-- [ ] Confirm delivery + returns wording matches the Etsy policy
-- [ ] Have someone check the "inspired by" naming against your risk appetite
-      (see note below)
-- [ ] Add `privacy.html` and `terms.html` if you start collecting emails (UK GDPR)
+- [ ] Add `logo.png` and `favicon.png` if you want them (see images/README.md)
+- [ ] Shoot an in-car image — the site has no lifestyle shot yet
+- [ ] Confirm delivery and returns wording matches your Etsy policy
+- [ ] Add `privacy.html` and `terms.html` once you start collecting emails (UK GDPR)
+- [ ] Decide how comfortable you are with the "inspired by" naming (below)
 
 ## Note on designer comparisons
 
-Etsy tolerates "inspired by <designer>" listings. On your own domain the same
-wording is more exposed — comparative reference to a trademark is legal in the
-UK only where it is honest and non-misleading. The current build keeps the
-comparison in small type, never in the product name, and carries a disclaimer in
-the footer and under the collection. If you'd rather de-risk it entirely, delete
-the `inspired` field from each scent and describe the notes only.
+Etsy tolerates "inspired by <designer>" listings because Etsy carries the risk.
+On your own domain you are the publisher. UK law permits honest comparative
+reference to a trademark, but Creed, Chanel, LVMH and L'Oréal all send letters.
+This build keeps the comparison out of every product name, sets it in small
+type, and carries a disclaimer under the collection and in the footer. That is
+mitigation, not immunity.
+
+To de-risk it completely, delete the `inspired` field from each scent in
+`main.js` and let the key notes speak for themselves — the tiles are designed to
+survive that change without a layout gap.
