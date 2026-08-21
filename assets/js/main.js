@@ -1,10 +1,10 @@
 /* ============================================================
    LuxeScent UK
    ------------------------------------------------------------
-   The whole page is generated from the SCENTS array below.
-   Add, remove or reorder a scent and the hero cycler, the
-   marquee, the pinned collection, the Note Index, the Scent
-   Finder and the quick view all follow.
+   Everything on the page is generated from the SCENTS array.
+   Add, remove or reorder a scent and the hero carousel, the
+   arch cards, the Note Index, the Scent Finder and the quick
+   view all follow.
    Key notes are verbatim from LuxeScent's own scent cards.
    ============================================================ */
 
@@ -14,54 +14,54 @@ const INSTAGRAM    = "https://www.instagram.com/luxescentuk";
 const PRICE        = "£8.79";
 
 /* family : fresh | woody | amber | sweet  (must match the chips)
-   glass  : the tint — drives the drawn bottle, the card wash,
-            the hero glow and the collection glow
+   glass  : the tint — the drawn bottle, the arch wash, the hero
+   grad   : [from, to] — the hero gradient for this scent
    pairs  : editorial pairing suggestion — review these
-   notes  : verbatim from the scent cards; the Note Index is
-            built by splitting this string, so keep the commas   */
+   notes  : verbatim from the scent cards. The Note Index is built
+            by splitting this string, so keep the commas.        */
 const SCENTS = [
   { id:"imperium", name:"Imperium", inspired:"Inspired by Invictus",
-    family:["fresh","woody"], glass:"#3D5A8C", pairs:"oud-eminence",
+    family:["fresh","woody"], glass:"#3D5A8C", grad:["#C8D4E4","#5D7BA6"], pairs:"oud-eminence",
     notes:"Grapefruit, Mandarin Orange, Marine Accord, Gaiac Wood, Patchouli and Ambergris",
     line:"Clean, sporty and bright — a cold-morning kind of fragrance." },
 
   { id:"aurum", name:"Aurum", inspired:"Inspired by One Million",
-    family:["amber","sweet"], glass:"#B07A34", pairs:"ciel-bleu",
+    family:["amber","sweet"], glass:"#B07A34", grad:["#E4D3A8","#A6874A"], pairs:"ciel-bleu",
     notes:"Blood Mandarin, Woody Cinnamon, Leather, Amber, Peppermint and Patchouli",
     line:"Warm, spiced and unapologetic. Evening driving." },
 
   { id:"proventus", name:"Proventus", inspired:"Inspired by Creed Aventus",
-    family:["woody","fresh"], glass:"#4E7A4A", pairs:"noir",
+    family:["woody","fresh"], glass:"#4E7A4A", grad:["#CFDCC4","#6E8F62"], pairs:"noir",
     notes:"Lemon, Pink Pepper, Apple, Bergamot, Blackcurrant, Pineapple, Jasmine, Patchouli, Birch, Cedarwood, Oakmoss and Musk",
     line:"Fruit over smoke — the most requested blend we make." },
 
   { id:"noir-bloom", name:"Noir Bloom", inspired:"Inspired by Black Opium",
-    family:["sweet"], glass:"#8E4568", pairs:"eris",
+    family:["sweet"], glass:"#8E4568", grad:["#DFC6D2","#8E5B75"], pairs:"eris",
     notes:"Pear Accord, Green Mandarin, Jasmine Sambac, Cinnamon Essence, Vanilla Quarter, Black Coffee Accord and Patchouli Heart",
     line:"Coffee, vanilla and white flowers. Rich and close." },
 
   { id:"eris", name:"Eris", inspired:"Inspired by Olympea",
-    family:["sweet","amber"], glass:"#C0925E", pairs:"noir-bloom",
+    family:["sweet","amber"], glass:"#C0925E", grad:["#EEDDC4","#B99A6C"], pairs:"noir-bloom",
     notes:"Amber, Salted Vanilla, Green Tangerine, Water Jasmine, Ginger Flower, Ambergris and Kashmiri Wood",
     line:"Salted vanilla with a green citrus lift." },
 
   { id:"oud-eminence", name:"Oud Eminence", inspired:"Inspired by Oud Wood",
-    family:["woody","amber"], glass:"#8A4E2A", pairs:"imperium",
+    family:["woody","amber"], glass:"#8A4E2A", grad:["#E0C9B4","#9A6941"], pairs:"imperium",
     notes:"Agarwood, Cardamom, Pink Pepper, Patchouli, Amber, Oud and Tonka Bean",
     line:"Resinous and quietly opulent. The one people ask about." },
 
   { id:"noir", name:"Noir", inspired:"Inspired by Armani Code",
-    family:["woody","amber"], glass:"#4A5160", pairs:"proventus",
+    family:["woody","amber"], glass:"#4A5160", grad:["#CFD3DA","#616978"], pairs:"proventus",
     notes:"Vert de Bergamote, Bergamot Heart, Clary Sage Heart, Resinoid Iris, Tonka Bean and Cedar Wood Heart",
     line:"Iris and tonka over cedar. Tailored, never loud." },
 
   { id:"efferus", name:"Efferus", inspired:"Inspired by Sauvage",
-    family:["fresh","amber"], glass:"#4C6E9E", pairs:"aurum",
+    family:["fresh","amber"], glass:"#4C6E9E", grad:["#CBD8E6","#6A87AB"], pairs:"aurum",
     notes:"Reggio di Calabria Bergamot, Papua New Guinean Vanilla Extract, Ambroxan and Lavender",
     line:"Peppery bergamot with a long ambroxan trail." },
 
   { id:"ciel-bleu", name:"Ciel Bleu", inspired:"Inspired by Bleu de Chanel",
-    family:["fresh","woody"], glass:"#3A6E9E", pairs:"efferus",
+    family:["fresh","woody"], glass:"#3A6E9E", grad:["#C7DAE8","#5A87AE"], pairs:"efferus",
     notes:"New Caledonian Sandalwood, Grapefruit, Lemon, Amber, Cedar and Tonka Bean",
     line:"Citrus and sandalwood. Crisp, tailored, understated." }
 ];
@@ -76,61 +76,94 @@ const FAMILIES = [
 const byId   = id => SCENTS.find(s => s.id === id);
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const pad    = n => String(n).padStart(2, "0");
+const root   = document.documentElement;
 
 /* ── the drawn bottle ─────────────────────────────────────────
-   There is no per-scent photography, so each blend is drawn as
-   the actual vessel, tinted to its character.
+   There is no cut-out product photography, so the vessel is
+   drawn: blackened wood cap, woven cord, tinted glass with a
+   liquid level and highlights. Scales to any size.
    ------------------------------------------------------------ */
 function vessel(glass, cls = "vessel"){
   const uid = "v" + glass.replace("#","");
   return `
-  <svg class="${cls}" viewBox="0 0 120 200" role="img" aria-label="LuxeScent diffuser bottle">
+  <svg class="${cls}" viewBox="0 0 200 330" role="img" aria-label="LuxeScent car diffuser">
     <defs>
-      <linearGradient id="${uid}" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="${glass}" stop-opacity=".95"/>
-        <stop offset="45%"  stop-color="${glass}" stop-opacity=".58"/>
-        <stop offset="100%" stop-color="${glass}" stop-opacity=".95"/>
+      <linearGradient id="${uid}g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"   stop-color="${glass}" stop-opacity=".97"/>
+        <stop offset="36%"  stop-color="${glass}" stop-opacity=".74"/>
+        <stop offset="70%"  stop-color="${glass}" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="${glass}" stop-opacity="1"/>
       </linearGradient>
-      <linearGradient id="${uid}c" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#2A2620"/><stop offset="55%" stop-color="#100E0A"/>
-        <stop offset="100%" stop-color="#231F19"/>
+      <linearGradient id="${uid}c" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#33302A"/>
+        <stop offset="22%"  stop-color="#17150F"/>
+        <stop offset="78%"  stop-color="#100E09"/>
+        <stop offset="100%" stop-color="#2B2822"/>
+      </linearGradient>
+      <linearGradient id="${uid}l" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#FFFFFF" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#FFFFFF" stop-opacity=".05"/>
       </linearGradient>
     </defs>
-    <path d="M60 6 C40 20 34 34 40 52" fill="none" stroke="#0F0D09" stroke-width="2.4"/>
-    <path d="M60 6 C80 20 86 34 80 52" fill="none" stroke="#0F0D09" stroke-width="2.4"/>
-    <circle cx="60" cy="12" r="7" fill="#0F0D09"/>
-    <rect x="34" y="50" width="52" height="44" fill="url(#${uid}c)"/>
-    <rect x="34" y="50" width="52" height="3" fill="#3B372E" opacity=".8"/>
-    <rect x="31" y="94" width="58" height="62" fill="url(#${uid})"/>
-    <rect x="37" y="101" width="13" height="48" fill="#FFFFFF" opacity=".24"/>
-    <rect x="31" y="94" width="58" height="62" fill="none" stroke="#F5EFE3" stroke-opacity=".22"/>
-    <ellipse cx="60" cy="166" rx="40" ry="5" fill="#000" opacity=".28"/>
+
+    <!-- cord + bead -->
+    <path d="M100 14 C64 34 52 62 62 88" fill="none" stroke="#171309" stroke-width="7" stroke-linecap="round"/>
+    <path d="M100 14 C136 34 148 62 138 88" fill="none" stroke="#171309" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="100" cy="18" r="13" fill="#171309"/>
+    <circle cx="96" cy="14" r="3" fill="#3A362C" opacity=".7"/>
+
+    <!-- blackened wood cap -->
+    <rect x="57" y="84" width="86" height="72" rx="3" fill="url(#${uid}c)"/>
+    <rect x="57" y="84" width="86" height="5" rx="2" fill="#45402F" opacity=".85"/>
+    <g stroke="#4A4436" stroke-width=".8" opacity=".28">
+      <line x1="66" y1="96" x2="66" y2="150"/><line x1="82" y1="94" x2="82" y2="152"/>
+      <line x1="104" y1="96" x2="104" y2="150"/><line x1="124" y1="94" x2="124" y2="152"/>
+    </g>
+
+    <!-- glass vessel -->
+    <rect x="52" y="156" width="96" height="104" rx="4" fill="url(#${uid}g)"/>
+    <!-- liquid level -->
+    <path d="M56 186 h88 v70 a4 4 0 0 1 -4 4 h-80 a4 4 0 0 1 -4 -4 z" fill="${glass}" opacity=".55"/>
+    <path d="M56 186 h88" stroke="#FFFFFF" stroke-opacity=".38" stroke-width="1.4"/>
+    <!-- highlights -->
+    <rect x="61" y="164" width="15" height="86" rx="3" fill="url(#${uid}l)"/>
+    <rect x="130" y="170" width="7" height="74" rx="3" fill="#FFFFFF" opacity=".16"/>
+    <rect x="52" y="156" width="96" height="104" rx="4" fill="none" stroke="#0F0D08" stroke-opacity=".22"/>
+
+    <!-- ground shadow -->
+    <ellipse cx="100" cy="276" rx="62" ry="9" fill="#1A2438" opacity=".16"/>
   </svg>`;
 }
 
-/* ── collection cards ─────────────────────────────────────── */
-const track = document.getElementById("track");
-if (track) {
-  track.innerHTML = SCENTS.map((s,i) => `
-    <article class="card" data-family="${s.family.join(" ")}" data-id="${s.id}"
-             data-glass="${s.glass}" style="--c:${s.glass}">
-      <span class="card__no">${pad(i+1)} / ${pad(SCENTS.length)}</span>
-      <div class="card__vessel">${vessel(s.glass)}</div>
-      <h3 class="card__name">${s.name}</h3>
-      <p class="card__insp">${s.inspired}</p>
-      <p class="card__line">${s.line}</p>
-      <p class="card__notes">${s.notes}</p>
-      <div class="card__foot">
-        <span class="card__price">${PRICE}</span>
-        <div class="card__acts">
-          <button class="card__quick" data-quick="${s.id}">Details</button>
-          <a class="card__shop" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop</a>
+/* ── arch card, used by the hero row and the collection ───── */
+function archCard(s, i){
+  return `
+  <article class="arch" data-family="${s.family.join(" ")}" data-id="${s.id}" style="--c:${s.glass}">
+    <div class="arch__top">
+      <span class="arch__no">${pad(i+1)}</span>
+      <div class="arch__vessel">${vessel(s.glass)}</div>
+    </div>
+    <div class="arch__body">
+      <h3 class="arch__name">${s.name}</h3>
+      <p class="arch__insp">${s.inspired}</p>
+      <p class="arch__line">${s.line}</p>
+      <p class="arch__notes">${s.notes}</p>
+      <div class="arch__foot">
+        <span class="arch__price">${PRICE}</span>
+        <div class="arch__acts">
+          <button class="pill pill--ghost" data-quick="${s.id}">Details</button>
+          <a class="pill" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop</a>
         </div>
       </div>
-    </article>`).join("");
+    </div>
+  </article>`;
 }
 
-/* ── ticker + dual marquee, built from the range ──────────── */
+/* ── the collection grid ──────────────────────────────────── */
+const grid = document.getElementById("grid");
+if (grid) grid.innerHTML = SCENTS.map((s,i) => archCard(s,i)).join("");
+
+/* ── ticker ───────────────────────────────────────────────── */
 const tickerBits = [
   "Complimentary UK delivery", "★ 5.0 on Etsy — Star Seller",
   "Every order arrives in a LUXE velvet pouch", "Six to eight weeks of fragrance",
@@ -138,96 +171,119 @@ const tickerBits = [
 ];
 const tickerTop = document.getElementById("tickerTop");
 if (tickerTop) {
-  const once = tickerBits.map(t => `<span>${t}</span><i>✧</i>`).join("");
-  tickerTop.innerHTML = once + once;   // duplicated so the loop is seamless
+  const once = tickerBits.map(t => `<span>${t}</span><i>✦</i>`).join("");
+  tickerTop.innerHTML = once + once;      // duplicated so the loop is seamless
 }
 
-const names = SCENTS.map(s => s.name);
-const bandA = document.getElementById("bandA");
-const bandB = document.getElementById("bandB");
-if (bandA && bandB) {
-  const rowA = names.map(n => `<span>${n}</span><i>✧</i>`).join("");
-  const rowB = [...names].reverse().map(n => `<span>${n}</span><i>✧</i>`).join("");
-  bandA.innerHTML = rowA + rowA;
-  bandB.innerHTML = rowB + rowB;
+const bandRow = document.getElementById("bandRow");
+if (bandRow) {
+  const once = SCENTS.map(s => `<span>${s.name}</span><i>✦</i>`).join("");
+  bandRow.innerHTML = once + once;
 }
 
-/* ── hero: the cycling scent name, tinting the page as it goes ─ */
-const cycler = document.getElementById("cycler");
-const root   = document.documentElement;
-function setTint(hex){ root.style.setProperty("--tint", hex); }
-
-if (cycler && !reduce) {
-  let i = -1;
-  const cycle = () => {
-    i = (i + 1) % SCENTS.length;
-    const s = SCENTS[i];
-    cycler.innerHTML = `<span class="cycler__word">${s.name}</span>`;
-    setTint(s.glass);
-  };
-  cycle();
-  setInterval(cycle, 2600);
-}
-
-/* ── hero stat counters ───────────────────────────────────── */
-function runCounter(el){
-  const literal = el.dataset.literal;
-  if (literal){ el.textContent = literal; return; }
-  const target   = Number(el.dataset.count);
-  const decimals = Number(el.dataset.decimals || 0);
-  const prefix   = el.dataset.prefix || "";
-  if (reduce){ el.textContent = prefix + target.toFixed(decimals); return; }
-  const start = performance.now(), dur = 1400;
-  const step = now => {
-    const t = Math.min(1, (now - start) / dur);
-    const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = prefix + (target * eased).toFixed(decimals);
-    if (t < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
-
-/* ── 02 · Note Index ──────────────────────────────────────────
-   Split every scent's key-note string into individual notes,
-   count how many blends carry each, and size the type by that
-   count. Clicking a note filters the collection.
+/* ── HERO carousel ────────────────────────────────────────────
+   One scent at a time: the gradient, the drawn bottle, the
+   descriptor and the shelf below all change together.
    ------------------------------------------------------------ */
-function splitNotes(str){
-  return str
-    .replace(/\band\b/gi, ",")
-    .split(",")
-    .map(n => n.trim())
-    .filter(Boolean);
+const heroStage = document.getElementById("heroStage");
+const heroName  = document.getElementById("heroName");
+const heroLine  = document.getElementById("heroLine");
+const heroInsp  = document.getElementById("heroInsp");
+const heroNotes = document.getElementById("heroNotes");
+const heroDots  = document.getElementById("heroDots");
+const heroShelf = document.getElementById("heroShelf");
+const heroShop  = document.getElementById("heroShop");
+let heroIx = 0, heroTimer = null;
+
+function paintHero(i, userDriven = false){
+  heroIx = (i + SCENTS.length) % SCENTS.length;
+  const s = SCENTS[heroIx];
+
+  root.style.setProperty("--g1", s.grad[0]);
+  root.style.setProperty("--g2", s.grad[1]);
+  root.style.setProperty("--tint", s.glass);
+
+  if (heroStage){
+    heroStage.innerHTML = vessel(s.glass, "vessel hero__bottle");
+  }
+  if (heroName){
+    heroName.textContent = s.name;
+    heroName.classList.remove("is-in"); void heroName.offsetWidth; heroName.classList.add("is-in");
+  }
+  if (heroInsp)  heroInsp.textContent  = s.inspired;
+  if (heroLine)  heroLine.textContent  = s.line;
+  if (heroNotes) heroNotes.textContent = s.notes;
+  if (heroShop)  heroShop.setAttribute("aria-label", `Shop ${s.name} on Etsy`);
+
+  heroDots?.querySelectorAll("button").forEach((b,ix) =>
+    b.setAttribute("aria-current", String(ix === heroIx)));
+  heroShelf?.querySelectorAll(".shelf__item").forEach((el,ix) =>
+    el.classList.toggle("is-on", ix === heroIx));
+
+  if (userDriven) restartHero();
 }
 
-const noteMap = new Map();          // note → [scent ids]
+function restartHero(){
+  clearInterval(heroTimer);
+  if (!reduce) heroTimer = setInterval(() => paintHero(heroIx + 1), 5200);
+}
+
+if (heroDots){
+  heroDots.innerHTML = SCENTS.map((s,i) =>
+    `<button data-go="${i}" aria-label="Show ${s.name}"><span></span></button>`).join("");
+  heroDots.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]");
+    if (b) paintHero(Number(b.dataset.go), true);
+  });
+}
+
+if (heroShelf){
+  heroShelf.innerHTML = SCENTS.map((s,i) => `
+    <button class="shelf__item" data-go="${i}" style="--c:${s.glass}">
+      <span class="shelf__arch">${vessel(s.glass)}</span>
+      <span class="shelf__name">${s.name}</span>
+      <span class="shelf__price">${PRICE}</span>
+    </button>`).join("");
+  heroShelf.addEventListener("click", e => {
+    const b = e.target.closest("[data-go]");
+    if (b) paintHero(Number(b.dataset.go), true);
+  });
+}
+
+document.querySelectorAll("[data-hero-step]").forEach(btn =>
+  btn.addEventListener("click", () => paintHero(heroIx + Number(btn.dataset.heroStep), true)));
+
+paintHero(0);
+restartHero();
+
+/* ── 03 · Note Index ──────────────────────────────────────── */
+function splitNotes(str){
+  return str.replace(/\band\b/gi, ",").split(",").map(n => n.trim()).filter(Boolean);
+}
+const noteMap = new Map();
 SCENTS.forEach(s => splitNotes(s.notes).forEach(n => {
   const key = n.toLowerCase();
   if (!noteMap.has(key)) noteMap.set(key, { label:n, ids:[] });
-  const entry = noteMap.get(key);
-  if (!entry.ids.includes(s.id)) entry.ids.push(s.id);
+  const e = noteMap.get(key);
+  if (!e.ids.includes(s.id)) e.ids.push(s.id);
 }));
 
 const cloud    = document.getElementById("cloud");
 const cloudOut = document.getElementById("cloudOut");
-if (cloud) {
+if (cloud){
   const entries = [...noteMap.values()].sort((a,b) =>
     b.ids.length - a.ids.length || a.label.localeCompare(b.label));
   cloud.innerHTML = entries.map(e =>
     `<button class="note" data-note="${e.label.toLowerCase()}" data-n="${Math.min(4, e.ids.length)}"
-             title="${e.ids.length} blend${e.ids.length > 1 ? "s" : ""}">${e.label}</button>`).join("");
-  const total = entries.length;
-  const lede = document.querySelector("#notes .lede");
+       title="${e.ids.length} blend${e.ids.length > 1 ? "s" : ""}">${e.label}</button>`).join("");
+  const lede = document.getElementById("notesLede");
   if (lede) lede.textContent =
-    `${total} ingredients across nine fragrances. Choose one and we'll show you every blend that carries it.`;
+    `${entries.length} ingredients across nine fragrances. Choose one and we'll show you every blend that carries it.`;
 }
 
-/* ── filtering: shared by the chips and the Note Index ────── */
+/* ── filtering ────────────────────────────────────────────── */
 let activeNote = null;
-
-function visibleCards(){
-  return [...track.querySelectorAll(".card:not(.is-hidden)")];
-}
+const gridCount = document.getElementById("gridCount");
 
 function applyFilter({ family = "all", note = null } = {}){
   activeNote = note;
@@ -237,28 +293,22 @@ function applyFilter({ family = "all", note = null } = {}){
     n.classList.toggle("is-on", note === n.dataset.note));
 
   const ids = note ? noteMap.get(note).ids : null;
-  track.querySelectorAll(".card").forEach(card => {
-    const s = byId(card.dataset.id);
-    const ok = ids ? ids.includes(s.id)
-                   : (family === "all" || s.family.includes(family));
+  let shown = 0;
+  grid?.querySelectorAll(".arch").forEach(card => {
+    const s  = byId(card.dataset.id);
+    const ok = ids ? ids.includes(s.id) : (family === "all" || s.family.includes(family));
     card.classList.toggle("is-hidden", !ok);
-    card.classList.toggle("is-match", Boolean(ids) && ok);
+    if (ok) shown++;
   });
 
-  const count = document.getElementById("pinCount");
-  if (count) {
-    const n = visibleCards().length;
-    count.textContent = n === SCENTS.length
-      ? `All ${SCENTS.length} fragrances`
-      : `${n} of ${SCENTS.length} fragrances`;
-  }
-  if (cloudOut) {
-    cloudOut.textContent = note
-      ? `${noteMap.get(note).label} appears in ${ids.length} blend${ids.length > 1 ? "s" : ""}: ` +
-        ids.map(id => byId(id).name).join(", ")
-      : "";
-  }
-  layoutPin();
+  if (gridCount) gridCount.textContent = shown === SCENTS.length
+    ? `All ${SCENTS.length} fragrances`
+    : `${shown} of ${SCENTS.length} fragrances`;
+
+  if (cloudOut) cloudOut.textContent = note
+    ? `${noteMap.get(note).label} appears in ${ids.length} blend${ids.length > 1 ? "s" : ""}: ` +
+      ids.map(id => byId(id).name).join(", ")
+    : "";
 }
 
 document.querySelectorAll(".chip").forEach(chip =>
@@ -273,61 +323,34 @@ cloud?.addEventListener("click", e => {
   document.getElementById("collection").scrollIntoView({ behavior:"smooth", block:"start" });
 });
 
-/* ── 01 · the pinned horizontal collection ────────────────────
-   The section is made tall; its inner stage sticks for the whole
-   height, and the track slides sideways in step with scroll.
-   Below 760px, or with reduced motion, the CSS turns it back
-   into an ordinary stacked list and this all no-ops.
-   ------------------------------------------------------------ */
-const pin     = document.getElementById("pin");
-const pinBar  = document.getElementById("pinBar");
-const pinGlow = document.getElementById("pinGlow");
-let pinRange  = 0;
-
-function pinActive(){
-  return pin && !reduce && window.matchMedia("(min-width:761px)").matches;
-}
-
-function layoutPin(){
-  if (!pin) return;
-  if (!pinActive()){ pin.style.height = ""; track.style.transform = ""; return; }
-  const overflow = Math.max(0, track.scrollWidth - window.innerWidth);
-  pinRange = overflow;
-  /* a little extra so the last card rests before the section releases */
-  pin.style.height = `${window.innerHeight + overflow + window.innerHeight * 0.15}px`;
-  onPinScroll();
-}
-
-function onPinScroll(){
-  if (!pinActive() || !pinRange) return;
-  const rect = pin.getBoundingClientRect();
-  const travelled = Math.min(Math.max(-rect.top, 0), pinRange);
-  const p = pinRange ? travelled / pinRange : 0;
-  track.style.transform = `translate3d(${-travelled}px,0,0)`;
-  if (pinBar) pinBar.style.width = `${p * 100}%`;
-
-  /* tint the glow to whichever card is nearest the middle */
-  const mid = window.innerWidth / 2;
-  let best = null, bestD = Infinity;
-  visibleCards().forEach(card => {
-    const r = card.getBoundingClientRect();
-    const d = Math.abs(r.left + r.width / 2 - mid);
-    if (d < bestD){ bestD = d; best = card; }
-  });
-  if (best && pinGlow) root.style.setProperty("--tint", best.dataset.glass);
-}
-
-/* ── 03 · longevity meter ─────────────────────────────────── */
+/* ── longevity meter ──────────────────────────────────────── */
 function runMeter(){
   const fill = document.getElementById("meterFill");
   const val  = document.getElementById("meterVal");
   if (!fill || !val) return;
   fill.style.width = "100%";
   if (reduce){ val.textContent = "Week 8"; return; }
-  const start = performance.now(), dur = 2400;
+  const start = performance.now(), dur = 2200;
   const step = now => {
     const t = Math.min(1, (now - start) / dur);
     val.textContent = `Week ${Math.round(t * 8)}`;
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── stat counters ────────────────────────────────────────── */
+function runCounter(el){
+  const literal = el.dataset.literal;
+  if (literal){ el.textContent = literal; return; }
+  const target   = Number(el.dataset.count);
+  const decimals = Number(el.dataset.decimals || 0);
+  const prefix   = el.dataset.prefix || "";
+  if (reduce){ el.textContent = prefix + target.toFixed(decimals); return; }
+  const start = performance.now(), dur = 1300;
+  const step = now => {
+    const t = Math.min(1, (now - start) / dur);
+    el.textContent = prefix + (target * (1 - Math.pow(1 - t, 3))).toFixed(decimals);
     if (t < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
@@ -343,11 +366,11 @@ function openQuick(id){
   const p = byId(s.pairs);
   modalBody.innerHTML = `
     <div class="qv">
-      <div class="qv__vessel">${vessel(s.glass)}</div>
+      <div class="qv__arch" style="--c:${s.glass}">${vessel(s.glass)}</div>
       <div>
         <h2 class="qv__name" id="modalName">${s.name}</h2>
         <p class="qv__insp">${s.inspired}</p>
-        <p class="qv__notes" style="margin-top:.9rem">${s.line}</p>
+        <p class="qv__line">${s.line}</p>
         <div class="qv__block">
           <p class="qv__label">Key notes</p>
           <p class="qv__notes">${s.notes}</p>
@@ -362,10 +385,10 @@ function openQuick(id){
         ${p ? `<div class="qv__pair">
           <p class="qv__label">We would pair it with</p>
           <b>${p.name}</b>
-          <p class="qv__notes" style="margin-top:.3rem">${p.line}</p>
+          <p class="qv__notes">${p.line}</p>
         </div>` : ""}
         <div class="qv__acts">
-          <a class="btn btn--gold" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop ${s.name} — ${PRICE}</a>
+          <a class="pill pill--lg" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop ${s.name} — ${PRICE}</a>
           ${p ? `<button class="link-u" data-quick="${p.id}">View ${p.name}</button>` : ""}
         </div>
       </div>
@@ -388,28 +411,28 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape" && !modal.hidden) closeQuick();
 });
 
-/* ── 04 · scent finder ────────────────────────────────────── */
+/* ── scent finder ─────────────────────────────────────────── */
 const QUESTIONS = [
   { q:"How would you like the car to feel?",
     opts:[
-      { label:"Clean and awake",    hint:"Citrus, air, cold mornings",     score:{fresh:2} },
-      { label:"Warm and close",     hint:"Spice, leather, evenings",       score:{amber:2} },
-      { label:"Grounded",           hint:"Cedar, oud, quiet",              score:{woody:2} },
-      { label:"Soft and sweet",     hint:"Vanilla, flowers, comfort",      score:{sweet:2} }
+      { label:"Clean and awake",    hint:"Citrus, air, cold mornings",   score:{fresh:2} },
+      { label:"Warm and close",     hint:"Spice, leather, evenings",     score:{amber:2} },
+      { label:"Grounded",           hint:"Cedar, oud, quiet",            score:{woody:2} },
+      { label:"Soft and sweet",     hint:"Vanilla, flowers, comfort",    score:{sweet:2} }
     ]},
   { q:"When do you drive most?",
     opts:[
-      { label:"Morning commute",    hint:"Something that wakes you up",    score:{fresh:2, woody:1} },
-      { label:"Evenings out",       hint:"Something with presence",        score:{amber:2, sweet:1} },
-      { label:"All day, every day", hint:"Something that never tires",     score:{woody:2, fresh:1} },
-      { label:"Weekends only",      hint:"Something to look forward to",   score:{sweet:2, amber:1} }
+      { label:"Morning commute",    hint:"Something that wakes you up",  score:{fresh:2, woody:1} },
+      { label:"Evenings out",       hint:"Something with presence",      score:{amber:2, sweet:1} },
+      { label:"All day, every day", hint:"Something that never tires",   score:{woody:2, fresh:1} },
+      { label:"Weekends only",      hint:"Something to look forward to", score:{sweet:2, amber:1} }
     ]},
   { q:"And the impression you want to leave?",
     opts:[
-      { label:"Understated",        hint:"Noticed only up close",          score:{woody:2, fresh:1} },
-      { label:"Memorable",          hint:"Someone will ask",               score:{amber:2, woody:1} },
-      { label:"Inviting",           hint:"Warm the moment they sit down",  score:{sweet:2, amber:1} },
-      { label:"Crisp",              hint:"Like the car was just valeted",  score:{fresh:2} }
+      { label:"Understated",        hint:"Noticed only up close",        score:{woody:2, fresh:1} },
+      { label:"Memorable",          hint:"Someone will ask",             score:{amber:2, woody:1} },
+      { label:"Inviting",           hint:"Warm the moment they sit down",score:{sweet:2, amber:1} },
+      { label:"Crisp",              hint:"Like the car was just valeted",score:{fresh:2} }
     ]}
 ];
 
@@ -426,8 +449,8 @@ function renderQuestion(){
     <p class="quiz__step">Question ${step + 1} of ${QUESTIONS.length}</p>
     <h3 class="quiz__q">${item.q}</h3>
     <div class="quiz__opts">
-      ${item.opts.map((o,i) => `
-        <button class="quiz__opt" data-opt="${i}"><b>${o.label}</b><span>${o.hint}</span></button>`).join("")}
+      ${item.opts.map((o,i) =>
+        `<button class="quiz__opt" data-opt="${i}"><b>${o.label}</b><span>${o.hint}</span></button>`).join("")}
     </div>`;
 }
 
@@ -439,27 +462,26 @@ function renderResult(){
     if (tally[b] === tally[a] && b === firstPick) return b;
     return a;
   });
-  /* Rank every scent against the tally — primary family counts double.
-     Where blends tie, rotate on the answer path so the finder stays
-     deterministic without always naming the same bottle. */
+  /* every scent scored against the tally; primary family counts double.
+     Ties rotate on the answer path — deterministic, but not always the
+     same bottle. */
   const score = s => s.family.reduce((n,f,i) => n + tally[f] * (i === 0 ? 2 : 1), 0);
   const top   = Math.max(...SCENTS.map(score));
   const tied  = SCENTS.filter(s => score(s) === top);
   const match = tied[path.reduce((a,b) => a + b, 0) % tied.length];
 
-  setTint(match.glass);
   quizStage.innerHTML = `
     <p class="quiz__step">Your match</p>
     <div class="result">
-      <div class="result__vessel">${vessel(match.glass)}</div>
+      <div class="result__arch" style="--c:${match.glass}">${vessel(match.glass)}</div>
       <div>
         <p class="result__label">${FAMILIES.find(f => f.key === best).name}</p>
         <h3 class="result__name">${match.name}</h3>
         <p class="result__insp">${match.inspired}</p>
-        <p class="result__notes">${match.line}</p>
-        <p class="result__notes"><span style="color:var(--ivory)">Key notes:</span> ${match.notes}</p>
+        <p class="result__line">${match.line}</p>
+        <p class="result__notes"><b>Key notes:</b> ${match.notes}</p>
         <div class="result__acts">
-          <a class="btn btn--gold" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop ${match.name} — ${PRICE}</a>
+          <a class="pill pill--lg" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop ${match.name} — ${PRICE}</a>
           <button class="link-u" data-quick="${match.id}">Full details</button>
         </div>
       </div>
@@ -476,38 +498,13 @@ quizStage?.addEventListener("click", e => {
   step++;
   step < QUESTIONS.length ? renderQuestion() : renderResult();
 });
-
 quizRestart?.addEventListener("click", () => {
   step = 0; tally = { fresh:0, woody:0, amber:0, sweet:0 }; firstPick = null; path = [];
   renderQuestion();
 });
 if (quizStage) renderQuestion();
 
-/* ── section progress rail + current nav item ─────────────── */
-const SECTIONS = [
-  ["hero","Top"], ["collection","Collection"], ["notes","Note Index"],
-  ["diffuser","The Diffuser"], ["finder","Scent Finder"], ["gifting","Gifting"],
-  ["story","Our Story"], ["faq","FAQ"]
-];
-const progress = document.getElementById("progress");
-if (progress) {
-  progress.innerHTML = SECTIONS.map(([id,label],i) =>
-    `<a href="#${id}" data-sec="${id}" data-n="${pad(i+1)} ${label}" aria-label="${label}"></a>`).join("");
-}
-
-function markCurrent(){
-  let current = SECTIONS[0][0];
-  SECTIONS.forEach(([id]) => {
-    const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.35) current = id;
-  });
-  progress?.querySelectorAll("a").forEach(a =>
-    a.classList.toggle("is-on", a.dataset.sec === current));
-  document.querySelectorAll(".nav a").forEach(a =>
-    a.classList.toggle("is-current", a.getAttribute("href") === `#${current}`));
-}
-
-/* ── sticky header, drawer, image fallbacks, reveals ──────── */
+/* ── header, drawer, image fallbacks ──────────────────────── */
 const header = document.getElementById("header");
 const burger = document.querySelector("[data-menu-toggle]");
 const drawer = document.getElementById("drawer");
@@ -532,7 +529,7 @@ document.querySelectorAll("img[data-fallback]").forEach(img => {
   img.addEventListener("error", fail, { once:true });
 });
 
-/* one-shot triggers: reveals, counters, the meter */
+/* ── reveals, counters, meter ─────────────────────────────── */
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
@@ -542,27 +539,29 @@ const io = new IntersectionObserver(entries => {
     if (el.id === "meter") runMeter();
     io.unobserve(el);
   });
-}, { threshold:.25, rootMargin:"0px 0px -40px" });
-
+}, { threshold:.2, rootMargin:"0px 0px -40px" });
 document.querySelectorAll(".reveal, [data-count], #meter").forEach(el => io.observe(el));
 
-/* ── one scroll handler for everything that tracks scroll ─── */
+/* ── current section in the nav ───────────────────────────── */
+const SECTIONS = ["collection","notes","diffuser","finder","gifting","story"];
 let ticking = false;
 function onScroll(){
   if (ticking) return;
   ticking = true;
   requestAnimationFrame(() => {
-    header.classList.toggle("is-stuck", window.scrollY > 20);
-    onPinScroll();
-    markCurrent();
+    header.classList.toggle("is-stuck", window.scrollY > 16);
+    let current = "";
+    SECTIONS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) current = id;
+    });
+    document.querySelectorAll(".nav a").forEach(a =>
+      a.classList.toggle("is-current", a.getAttribute("href") === `#${current}`));
     ticking = false;
   });
 }
 window.addEventListener("scroll", onScroll, { passive:true });
-window.addEventListener("resize", () => { layoutPin(); markCurrent(); });
-window.addEventListener("load", layoutPin);
-applyFilter({ family:"all" });   // seeds the count, then lays the track out
-markCurrent();
+onScroll();
 
 /* ── signup (not yet connected to a provider) ─────────────── */
 const form = document.getElementById("signup");
@@ -577,4 +576,5 @@ form?.addEventListener("submit", e => {
   if (ok) form.reset();
 });
 
+applyFilter({ family:"all" });
 document.getElementById("year").textContent = new Date().getFullYear();
