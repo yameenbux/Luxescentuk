@@ -1,37 +1,33 @@
 # LuxeScent UK — website
 
-Static one-page site for [LuxeScent UK](https://www.etsy.com/uk/shop/LuxeScentUK)
-(luxury car diffusers). No build step, no dependencies, no framework — plain
-HTML, CSS and one JS file. Deploys to GitHub Pages as-is.
+Static site for [LuxeScent UK](https://www.etsy.com/uk/shop/LuxeScentUK) — luxury
+car diffusers, handcrafted in the United Kingdom. No build step, no framework,
+no dependencies: plain HTML, one stylesheet, one script. Deploys to GitHub Pages
+as-is.
 
 Repo: https://github.com/yameenbux/Luxescentuk
+Live: https://yameenbux.github.io/Luxescentuk/
 
-## Push it live
+## Deploying an update
 
-From the folder containing `index.html`:
+Unzip these files into the repo root — they replace `index.html`, `assets/` and
+`README.md` — then:
 
 ```bash
-git init
-git add .
-git commit -m "LuxeScent UK site"
-git branch -M main
-git remote add origin https://github.com/yameenbux/Luxescentuk.git
-git push -u origin main
+git add -A
+git commit -m "Site rebuild"
+git push
 ```
 
-Then: **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)`**.
-Live in about a minute at `https://yameenbux.github.io/Luxescentuk/`.
-
-Custom domain: Settings → Pages → Custom domain, add a `CNAME` file containing
-the domain, point the DNS `CNAME` record at `yameenbux.github.io`, tick
-*Enforce HTTPS*.
+GitHub Pages redeploys in about a minute. Hard-refresh once, since the browser
+caches the old stylesheet.
 
 ## Structure
 
 ```
 index.html                 all page markup
 assets/css/styles.css      all styling — design tokens in :root at the top
-assets/js/main.js          scent data + grid, filters, nav, reveals
+assets/js/main.js          scent data + every interactive feature
 assets/images/             brand photography (see images/README.md)
 build-preview.py           optional: builds a single-file preview.html
 ```
@@ -40,37 +36,70 @@ build-preview.py           optional: builds a single-file preview.html
 
 | What | Where |
 |---|---|
-| Scents, key notes, prices, badges | `SCENTS` array at the top of `assets/js/main.js` |
-| Etsy / Instagram links | `ETSY_SHOP`, `ETSY_LISTING`, `INSTAGRAM` constants, same file |
+| Scents, key notes, prices, badges, pairings | `SCENTS` array at the top of `assets/js/main.js` |
+| Scent families | `FAMILIES` array, same file |
+| Scent Finder questions | `QUESTIONS` array, same file |
+| Etsy / Instagram links, price | constants at the top of `main.js` |
 | Colours, fonts, spacing | `:root` block at the top of `styles.css` |
 | Copy, FAQ, reviews, footer | directly in `index.html` |
 
-Adding a tenth scent means adding one object to `SCENTS` — the tile, the filter
-behaviour and the buy link all follow.
+Adding a tenth scent means adding one object to `SCENTS`. The favourites rail,
+the collection grid, the filters, the quick view and the Scent Finder all pick
+it up automatically.
+
+## Interactive features
+
+Adapted from the Jo Malone London playbook, rebuilt to work as static files:
+
+- **Scent Finder** — three questions, then a matched blend. Every scent is
+  scored against the answers (primary family counts double); equally-matched
+  blends rotate on the answer path, so the tool doesn't always name the same
+  bottle. Deterministic, no randomness.
+- **Fragrant Favourites rail** — a scroll-snapping carousel with arrow controls.
+- **Quick view** — opens a panel per scent with the full key notes, the clear
+  and dark glass options, and a pairing suggestion that links straight through
+  to that second scent. Closes on Escape, scrim click, or the ×.
+- **Scent families** — four tiles that jump to the collection with that filter
+  already applied.
+- **Complimentary services strip** — delivery, velvet pouch, made by hand.
+- **Rotating announcement bar** with manual arrows.
+- Filters, sticky header, scroll reveals, accessible focus states, and a
+  `prefers-reduced-motion` path that disables all of it.
 
 ## Design notes
 
-Palette and type are pulled from LuxeScent's own assets rather than from any
-reference site: marble white ground (`#F7F6F4`), the blackened wood cap as
-near-black (`#0B0B0C`), and the smoked navy glass as the accent (`#2E3A4E` /
-`#93A2B8`). Display type is **Antonio** — the closest Google Font to the
-condensed face on the scent cards and velvet pouch — with **Montserrat** for
-body copy.
+The register is a British fragrance house: ivory ground (`#FAF7F1`), black type,
+hairline rules, and a great deal of air. Display type is **Bodoni Moda** — a
+Didone, the class of serif the fragrance houses use — with **Jost** for the
+interface. The only accent is `#26314A`, sampled from the smoked glass of the
+bottle, used sparingly.
 
-The nine scent tiles are typographic rather than photographic, mirroring the
-brand's own scent cards. That is a deliberate choice: it needs no per-scent
-photography and it reads as one system.
+Two decisions worth knowing about:
+
+**The scent cards are drawn, not photographed.** There is no per-scent
+photography, and nine identical bottle photos would have looked like a mistake.
+Each card carries an SVG line drawing of the actual vessel, tinted to the
+character of that blend. It scales perfectly, weighs nothing, and gives all nine
+cards a family resemblance. If you shoot per-scent photography later, add an
+`image:` field to each object in `SCENTS` and the cards can use it instead.
+
+**The hero photograph is composed.** Your photography is portrait and tight, and
+a wide cinematic hero doesn't exist in the set. `hero.jpg` takes the range shot,
+sits it low in frame and extends the backdrop upward so the headline has room.
+Replace it with a real landscape photograph when you have one.
 
 ## Before launch — checklist
 
 - [ ] Replace placeholder review text with verbatim Etsy reviews + first names
 - [ ] Set a real contact email in the footer (currently `hello@luxescent.co.uk`)
 - [ ] Connect the signup form to Formspree / Mailchimp / Beehiiv
+- [ ] Review the `pairs:` suggestions in `SCENTS` — those are editorial
+      recommendations written for you, not something you told us
+- [ ] Review the `line:` one-liners on each scent for the same reason
 - [ ] Add `logo.png` and `favicon.png` if you want them (see images/README.md)
-- [ ] Shoot an in-car image — the site has no lifestyle shot yet
+- [ ] Shoot an in-car photograph — the site still has no lifestyle shot
 - [ ] Confirm delivery and returns wording matches your Etsy policy
-- [ ] Add `privacy.html` and `terms.html` once you start collecting emails (UK GDPR)
-- [ ] Decide how comfortable you are with the "inspired by" naming (below)
+- [ ] Add `privacy.html` and `terms.html` once you collect emails (UK GDPR)
 
 ## Note on designer comparisons
 
@@ -81,6 +110,5 @@ This build keeps the comparison out of every product name, sets it in small
 type, and carries a disclaimer under the collection and in the footer. That is
 mitigation, not immunity.
 
-To de-risk it completely, delete the `inspired` field from each scent in
-`main.js` and let the key notes speak for themselves — the tiles are designed to
-survive that change without a layout gap.
+To remove the exposure entirely, delete the `inspired` field from each scent in
+`main.js`; the cards and the quick view are built to close up without it.

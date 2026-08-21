@@ -4,19 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LuxeScent UK — Luxury Car Diffusers | Designer-Inspired Car Fragrance</title>
-<meta name="description" content="Handcrafted luxury car diffusers from the UK. Designer-inspired fragrance in solid glass and wood, lasting 6–8 weeks. Elevating everyday journeys through luxury scent.">
-<meta name="theme-color" content="#0B0B0C">
+<meta name="description" content="Handcrafted luxury car diffusers from the United Kingdom. Nine designer-inspired fragrances in solid glass and blackened wood, lasting six to eight weeks. Complimentary velvet pouch with every order.">
+<meta name="theme-color" content="#FAF7F1">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="LuxeScent UK — Luxury Car Diffusers">
-<meta property="og:description" content="Handcrafted in the UK. Designer-inspired car fragrance that lasts 6–8 weeks.">
+<meta property="og:description" content="Handcrafted in the United Kingdom. Nine designer-inspired fragrances that last six to eight weeks.">
 <meta property="og:image" content="assets/images/og-image.jpg">
 <meta property="og:locale" content="en_GB">
 
 <link rel="icon" href="assets/images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@200;300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -25,10 +25,15 @@
 
 <!-- ══════════ ANNOUNCEMENT ══════════ -->
 <div class="announce">
-  <div class="announce__track" id="announce">
-    <span>Free UK delivery on every order</span>
-    <span>★ 5.0 — Etsy Star Seller</span>
-    <span>Handcrafted in the United Kingdom</span>
+  <div class="wrap announce__inner">
+    <button class="announce__arrow" data-ann="-1" aria-label="Previous message">‹</button>
+    <div class="announce__track" id="announce" aria-live="polite">
+      <span>Complimentary UK delivery on every order</span>
+      <span>Every diffuser arrives in a LUXE velvet pouch</span>
+      <span>★ 5.0 on Etsy — Star Seller</span>
+      <span>Handcrafted by hand in the United Kingdom</span>
+    </div>
+    <button class="announce__arrow" data-ann="1" aria-label="Next message">›</button>
   </div>
 </div>
 
@@ -40,33 +45,37 @@
     </button>
 
     <nav class="nav nav--left" aria-label="Primary">
-      <a href="#collection">Collection</a>
-      <a href="#product">The Diffuser</a>
+      <a href="#collection">The Collection</a>
+      <a href="#finder">Scent Finder</a>
+      <a href="#gifting">Gifting</a>
     </nav>
 
-    <a class="brand" href="#top" aria-label="LuxeScent UK home">
+    <a class="brand" href="#top" aria-label="LuxeScent UK — home">
       <img class="brand__logo" src="assets/images/logo.png" alt="LuxeScent UK" data-fallback>
       <span class="brand__type">
-        <span class="brand__name">LUXESCENT</span>
-        <span class="brand__sub">UK</span>
+        <span class="brand__name">LuxeScent</span>
+        <span class="brand__sub">United Kingdom</span>
       </span>
     </a>
 
     <nav class="nav nav--right" aria-label="Secondary">
+      <a href="#diffuser">The Diffuser</a>
       <a href="#story">Our Story</a>
-      <a href="#faq">FAQ</a>
+      <a class="nav__shop" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop</a>
     </nav>
 
-    <a class="btn btn--sm btn--ink header__cta" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop</a>
+    <a class="header__cta" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop</a>
   </div>
 
   <div class="drawer" id="drawer" hidden>
-    <a href="#collection">Collection</a>
-    <a href="#product">The Diffuser</a>
+    <a href="#collection">The Collection</a>
+    <a href="#finder">Scent Finder</a>
+    <a href="#diffuser">The Diffuser</a>
+    <a href="#families">Scent Families</a>
+    <a href="#gifting">Gifting</a>
     <a href="#story">Our Story</a>
-    <a href="#reviews">Reviews</a>
     <a href="#faq">FAQ</a>
-    <a class="btn btn--ink btn--block" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop on Etsy</a>
+    <a class="btn btn--solid btn--block" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop on Etsy</a>
   </div>
 </header>
 
@@ -75,122 +84,183 @@
 
 <!-- ══════════ HERO ══════════ -->
 <section class="hero">
-  <div class="hero__text">
-    <p class="eyebrow reveal">Designer-inspired · Handcrafted in the UK</p>
-    <h1 class="hero__title reveal">Elevating everyday journeys through scent</h1>
-    <p class="hero__sub reveal">A luxury car diffuser in solid glass and blackened wood. Nine fragrances, hand-blended in small batches — each one lasting six to eight weeks.</p>
-    <div class="hero__actions reveal">
-      <a class="btn btn--ink" href="#collection">Explore the collection</a>
-      <a class="btn btn--outline" href="#product">How it works</a>
-    </div>
-    <p class="hero__note reveal"><b>★★★★★</b> Rated 5.0 by Etsy customers &nbsp;·&nbsp; Free UK delivery</p>
+  <div class="hero__media media" data-ph="Hero — the collection">
+    <img src="assets/images/hero.jpg" alt="The LuxeScent diffuser collection arranged on marble" data-fallback>
   </div>
-  <div class="hero__media media" data-ph="Hero — diffusers">
-    <img src="assets/images/product-clear.jpg" alt="Three LuxeScent car diffusers in clear and smoked glass with blackened wood caps" data-fallback>
+  <div class="hero__scrim"></div>
+  <div class="wrap hero__inner">
+    <p class="eyebrow eyebrow--light reveal">Handcrafted in the United Kingdom</p>
+    <h1 class="hero__title reveal">Elevating everyday journeys<br>through <em>luxury scent</em></h1>
+    <p class="hero__sub reveal">Nine designer-inspired fragrances, hand-blended in small batches and poured into solid glass. Six to eight weeks of scent, from £8.79.</p>
+    <div class="hero__actions reveal">
+      <a class="btn btn--solid" href="#collection">Discover the collection</a>
+      <a class="btn btn--ghost" href="#finder">Find your scent</a>
+    </div>
   </div>
 </section>
 
-<!-- ══════════ MARQUEE ══════════ -->
-<div class="marquee" id="marquee" aria-hidden="true">
-  <div class="marquee__row">
-    <span>Handcrafted in the UK</span><i></i>
-    <span>6–8 Weeks of Fragrance</span><i></i>
-    <span>Cruelty-Free &amp; Ethically Sourced</span><i></i>
-    <span>Glass &amp; Wood</span><i></i>
-    <span>Free UK Delivery</span><i></i>
-    <span>Handcrafted in the UK</span><i></i>
-    <span>6–8 Weeks of Fragrance</span><i></i>
-    <span>Cruelty-Free &amp; Ethically Sourced</span><i></i>
-    <span>Glass &amp; Wood</span><i></i>
-    <span>Free UK Delivery</span><i></i>
+<!-- ══════════ COMPLIMENTARY SERVICES ══════════ -->
+<section class="services" aria-label="Complimentary services">
+  <div class="wrap services__grid">
+    <div class="service reveal">
+      <span class="service__mark" aria-hidden="true">✧</span>
+      <h3>Complimentary UK delivery</h3>
+      <p>On every order, with no minimum spend.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service__mark" aria-hidden="true">✧</span>
+      <h3>Presented in a velvet pouch</h3>
+      <p>Every diffuser arrives gift-ready in a LUXE pouch.</p>
+    </div>
+    <div class="service reveal">
+      <span class="service__mark" aria-hidden="true">✧</span>
+      <h3>Blended by hand in the UK</h3>
+      <p>Small batches, poured by the two of us.</p>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- ══════════ FAVOURITES CAROUSEL ══════════ -->
+<section class="section section--tight" id="favourites">
+  <div class="wrap">
+    <header class="rail__head reveal">
+      <div>
+        <p class="eyebrow">Most loved</p>
+        <h2 class="h2">Fragrant favourites</h2>
+      </div>
+      <div class="rail__nav">
+        <button class="rail__btn" data-rail="-1" aria-label="Scroll left">‹</button>
+        <button class="rail__btn" data-rail="1" aria-label="Scroll right">›</button>
+      </div>
+    </header>
+  </div>
+  <div class="rail" id="rail"><!-- generated --></div>
+</section>
+
+<!-- ══════════ SCENT FINDER ══════════ -->
+<section class="finder" id="finder">
+  <div class="wrap wrap--narrow">
+    <header class="section__head section__head--centre reveal">
+      <p class="eyebrow">Scent Finder</p>
+      <h2 class="h2">Not sure where to begin?</h2>
+      <p class="lede">Three questions. We'll point you to the blend that suits how you drive.</p>
+    </header>
+
+    <div class="quiz reveal" id="quiz">
+      <div class="quiz__progress"><span id="quizBar"></span></div>
+      <div class="quiz__stage" id="quizStage"><!-- generated --></div>
+      <button class="quiz__restart" id="quizRestart" hidden>Start again</button>
+    </div>
+  </div>
+</section>
 
 <!-- ══════════ COLLECTION ══════════ -->
 <section class="section" id="collection">
   <div class="wrap">
-    <header class="section__head reveal">
+    <header class="section__head section__head--centre reveal">
       <p class="eyebrow">The Collection</p>
-      <h2 class="h2">Nine fragrances.<br>One that's yours.</h2>
-      <p class="lede">Every blend is built from high-grade fragrance oil and poured by hand. Filter by family to find the character you're after.</p>
+      <h2 class="h2">Nine fragrances</h2>
+      <p class="lede">Each one built from high-grade fragrance oil and poured by hand into clear or smoked glass. Select a family, or view all nine.</p>
     </header>
 
     <div class="filters reveal" role="group" aria-label="Filter by fragrance family">
-      <button class="chip is-active" data-filter="all">All nine</button>
+      <button class="chip is-active" data-filter="all">View all</button>
       <button class="chip" data-filter="fresh">Fresh</button>
       <button class="chip" data-filter="woody">Woody</button>
       <button class="chip" data-filter="amber">Amber &amp; Spice</button>
       <button class="chip" data-filter="sweet">Sweet &amp; Floral</button>
     </div>
 
-    <div class="grid" id="grid"><!-- generated from SCENTS in main.js --></div>
+    <div class="grid" id="grid"><!-- generated --></div>
 
-    <p class="disclaimer reveal">LuxeScent UK is not affiliated with, endorsed by or connected to any of the fragrance houses referenced. All names and trademarks belong to their respective owners; comparisons describe scent character only.</p>
+    <p class="disclaimer reveal">LuxeScent UK is an independent maker and is not affiliated with, endorsed by or connected to any of the fragrance houses referenced. All trademarks belong to their respective owners; comparisons describe scent character only.</p>
   </div>
 </section>
 
-<!-- ══════════ FULL-BLEED BAND ══════════ -->
+<!-- ══════════ EDITORIAL BAND ══════════ -->
 <section class="band">
-  <div class="band__media media" data-ph="Diffuser range">
-    <img src="assets/images/hero.jpg" alt="The LuxeScent diffuser range lined up on marble" loading="lazy" data-fallback>
+  <div class="band__media media" data-ph="Marble">
+    <img src="assets/images/band-marble.jpg" alt="" loading="lazy" data-fallback>
   </div>
-  <div class="band__caption reveal">
-    <p>“Minimal design, long-lasting scent, and a touch of everyday luxury.”</p>
+  <div class="wrap band__inner reveal">
+    <p class="band__quote">“Minimal design, long-lasting scent, and a touch of everyday luxury.”</p>
   </div>
 </section>
 
-<!-- ══════════ PRODUCT ══════════ -->
-<section class="section" id="product">
+<!-- ══════════ THE DIFFUSER ══════════ -->
+<section class="section" id="diffuser">
   <div class="wrap split">
-    <div class="split__media split__media--stack reveal">
-      <div class="media" data-ph="The range">
+    <div class="split__media reveal">
+      <div class="media media--plate" data-ph="The range">
         <img src="assets/images/product-dark.jpg" alt="Clear and smoked glass diffusers lined up on marble" loading="lazy" data-fallback>
       </div>
-      <div class="media" data-ph="Glass detail">
+      <div class="media media--inset" data-ph="Glass detail">
         <img src="assets/images/detail.jpg" alt="Close detail of the clear glass vessel and blackened wood cap" loading="lazy" data-fallback>
       </div>
     </div>
     <div class="split__body reveal">
       <p class="eyebrow">The Diffuser</p>
-      <h2 class="h2">Weighted glass. Blackened wood. No plastic.</h2>
-      <p>Most car fresheners are disposable, and look it. Ours is a solid glass vessel with a blackened wood cap and a woven cord — made to hang from the mirror and look like it belongs there. Every order arrives in a branded velvet pouch.</p>
+      <h2 class="h2">Weighted glass.<br>Blackened wood.<br><em>No plastic.</em></h2>
+      <p>Most car fresheners are disposable, and they look it. Ours is a solid glass vessel with a blackened wood cap and a woven cord — made to hang from the mirror and look as though it belongs there.</p>
 
       <ul class="specs">
         <li><span>Materials</span><b>Glass &amp; wood</b></li>
-        <li><span>Longevity</span><b>6–8 weeks</b></li>
+        <li><span>Longevity</span><b>Six to eight weeks</b></li>
         <li><span>Finishes</span><b>Clear or dark glass</b></li>
         <li><span>Made in</span><b>United Kingdom</b></li>
         <li><span>Ingredients</span><b>Cruelty-free, ethically sourced</b></li>
-        <li><span>Price</span><b>£8.79 · free UK delivery</b></li>
+        <li><span>Price</span><b>£8.79, delivery included</b></li>
       </ul>
 
       <div class="split__actions">
-        <a class="btn btn--ink" href="https://www.etsy.com/uk/listing/4482755390/" target="_blank" rel="noopener">Buy on Etsy — £8.79</a>
-        <a class="btn btn--outline" href="#collection">Choose a scent</a>
+        <a class="btn btn--solid" href="https://www.etsy.com/uk/listing/4482755390/" target="_blank" rel="noopener">Shop the diffuser — £8.79</a>
+        <a class="link-u" href="#collection">Choose a fragrance</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ HOW IT WORKS ══════════ -->
-<section class="section section--alt" id="how">
+<!-- ══════════ SCENT FAMILIES ══════════ -->
+<section class="section section--alt" id="families">
   <div class="wrap">
-    <header class="section__head reveal">
-      <p class="eyebrow">Simple by design</p>
-      <h2 class="h2">Three steps</h2>
+    <header class="section__head section__head--centre reveal">
+      <p class="eyebrow">By character</p>
+      <h2 class="h2">Scent families</h2>
     </header>
-    <ol class="steps">
-      <li class="step reveal"><span class="step__n">01</span><h3>Choose your scent</h3><p>Nine fragrances across fresh, woody, amber and sweet families — in clear or dark glass.</p></li>
-      <li class="step reveal"><span class="step__n">02</span><h3>Hang &amp; open</h3><p>Loop it over the mirror, unscrew the wooden cap and let the oil breathe.</p></li>
-      <li class="step reveal"><span class="step__n">03</span><h3>Six to eight weeks</h3><p>Tighten the cap on hot days to slow it down, loosen it for a stronger throw.</p></li>
-    </ol>
+    <div class="families" id="families-grid"><!-- generated --></div>
+  </div>
+</section>
+
+<!-- ══════════ GIFTING ══════════ -->
+<section class="section" id="gifting">
+  <div class="wrap split split--rev">
+    <div class="split__body reveal">
+      <p class="eyebrow">Gifting</p>
+      <h2 class="h2">Wrapped before<br>it leaves us</h2>
+      <p>Every diffuser is packed into a black LUXE velvet pouch by hand — no extra charge, no request needed. It arrives ready to give, which is why so many of our orders are bought in pairs.</p>
+      <ul class="ticks">
+        <li>Velvet pouch included with every order</li>
+        <li>Nine fragrances to choose between</li>
+        <li>Clear or smoked glass to match an interior</li>
+        <li>Under £10 — a new-car, birthday or thank-you gift</li>
+      </ul>
+      <div class="split__actions">
+        <a class="btn btn--solid" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Shop gifts</a>
+        <a class="link-u" href="#finder">Find their scent</a>
+      </div>
+    </div>
+    <div class="split__media split__media--single reveal">
+      <div class="media media--square" data-ph="LUXE velvet pouch">
+        <img src="assets/images/gifting.jpg" alt="A LuxeScent diffuser resting on its black LUXE velvet pouch" loading="lazy" data-fallback>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ══════════ REVIEWS ══════════ -->
-<section class="section" id="reviews">
+<section class="section section--alt" id="reviews">
   <div class="wrap">
-    <header class="section__head reveal">
+    <header class="section__head section__head--centre reveal">
       <p class="eyebrow">★★★★★ &nbsp;5.0 on Etsy · Star Seller</p>
       <h2 class="h2">What drivers say</h2>
     </header>
@@ -204,55 +274,55 @@
 </section>
 
 <!-- ══════════ STORY ══════════ -->
-<section class="section section--dark" id="story">
-  <div class="wrap split split--rev">
-    <div class="split__body reveal">
-      <p class="eyebrow">Our Story</p>
-      <h2 class="h2">A husband and wife, a small UK workshop</h2>
-      <p>LuxeScent began with a simple frustration: everything on the market either smelled cheap or looked it. So we started blending our own — small batches, proper glass, fragrance oils chosen because we wanted them in our own car.</p>
-      <p>Everything is still made by the two of us, by hand, in the UK. Minimal design, long-lasting scent, and a touch of everyday luxury.</p>
-      <div class="split__actions">
-        <a class="link-arrow" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Visit our Etsy shop</a>
-        <a class="link-arrow" href="https://www.instagram.com/luxescentuk" target="_blank" rel="noopener">Follow on Instagram</a>
+<section class="section" id="story">
+  <div class="wrap split">
+    <div class="split__media split__media--single reveal">
+      <div class="media media--tall" data-ph="The workshop">
+        <img src="assets/images/story.jpg" alt="A diffuser and its velvet pouch on marble" loading="lazy" data-fallback>
       </div>
     </div>
-    <div class="split__media split__media--single reveal">
-      <div class="media media--tall" data-ph="LUXE velvet pouch">
-        <img src="assets/images/story.jpg" alt="LuxeScent diffuser resting on its branded LUXE velvet pouch" loading="lazy" data-fallback>
+    <div class="split__body reveal">
+      <p class="eyebrow">Our Story</p>
+      <h2 class="h2">A husband and wife,<br>a small UK workshop</h2>
+      <p>LuxeScent began with a simple frustration: everything on the market either smelled cheap or looked it. So we started blending our own — small batches, proper glass, fragrance oils chosen because we wanted them in our own car.</p>
+      <p>Everything is still made by the two of us, by hand, in the United Kingdom. Minimal design, long-lasting scent, and a touch of everyday luxury.</p>
+      <div class="split__actions">
+        <a class="link-u" href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Visit our Etsy shop</a>
+        <a class="link-u" href="https://www.instagram.com/luxescentuk" target="_blank" rel="noopener">Follow on Instagram</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══════════ FAQ ══════════ -->
-<section class="section" id="faq">
+<section class="section section--alt" id="faq">
   <div class="wrap wrap--narrow">
-    <header class="section__head reveal">
+    <header class="section__head section__head--centre reveal">
       <p class="eyebrow">Questions</p>
       <h2 class="h2">Good to know</h2>
     </header>
     <div class="acc">
       <details class="acc__item reveal"><summary>How long does the fragrance last?</summary><div class="acc__body"><p>Six to eight weeks with normal use. Heat speeds evaporation, so in summer tighten the cap when you park — it stretches the life considerably.</p></div></details>
       <details class="acc__item reveal"><summary>Are these the actual designer perfumes?</summary><div class="acc__body"><p>No. They are our own blends, made from high-quality fragrance oils chosen for their similarity in character to well-known perfumes. We are independent and not connected to any fragrance house.</p></div></details>
-      <details class="acc__item reveal"><summary>Will it leak or stain my interior?</summary><div class="acc__body"><p>The cap seals for transit. Keep it upright when hanging and avoid contact with plastics and painted trim — fragrance oil can mark some surfaces.</p></div></details>
-      <details class="acc__item reveal"><summary>Clear or dark glass — what's the difference?</summary><div class="acc__body"><p>Purely aesthetic. Clear shows the oil level; dark smoked glass hides it and reads more discreet against a black interior.</p></div></details>
-      <details class="acc__item reveal"><summary>Can I refill it?</summary><div class="acc__body"><p>Refills are on the way. Register your interest below and we'll let you know first.</p></div></details>
-      <details class="acc__item reveal"><summary>How fast is delivery?</summary><div class="acc__body"><p>Free UK delivery on every order, dispatched from our workshop. See the Etsy listing for live estimates.</p></div></details>
-      <details class="acc__item reveal"><summary>Do you offer returns?</summary><div class="acc__body"><p>Because these are hand-blended fragrance products we can't accept returns, but if anything arrives damaged or wrong, message us and we'll put it right.</p></div></details>
+      <details class="acc__item reveal"><summary>Will it leak or stain my interior?</summary><div class="acc__body"><p>The cap seals for transit. Keep it upright when hanging, and avoid contact with plastics and painted trim — fragrance oil can mark some surfaces.</p></div></details>
+      <details class="acc__item reveal"><summary>Clear or smoked glass — what is the difference?</summary><div class="acc__body"><p>Purely aesthetic. Clear shows the oil level; smoked glass conceals it and reads more discreet against a dark interior.</p></div></details>
+      <details class="acc__item reveal"><summary>Can I refill it?</summary><div class="acc__body"><p>Refills are on the way. Register your interest below and we will let you know first.</p></div></details>
+      <details class="acc__item reveal"><summary>How quickly do orders arrive?</summary><div class="acc__body"><p>Complimentary UK delivery on every order, dispatched from our workshop. See the Etsy listing for live estimates.</p></div></details>
+      <details class="acc__item reveal"><summary>Do you accept returns?</summary><div class="acc__body"><p>Because these are hand-blended fragrance products we are unable to accept returns, but if anything arrives damaged or incorrect, message us and we will put it right.</p></div></details>
     </div>
   </div>
 </section>
 
-<!-- ══════════ CTA ══════════ -->
+<!-- ══════════ NEWSLETTER ══════════ -->
 <section class="cta">
   <div class="wrap wrap--narrow cta__inner reveal">
     <p class="eyebrow">Stay in the loop</p>
     <h2 class="h2">New scents, first</h2>
-    <p class="lede">Refills, seasonal blends and early access — occasional emails, nothing else.</p>
+    <p class="lede">Refills, seasonal blends and early access. Occasional emails, nothing else.</p>
     <form class="signup" id="signup" novalidate>
       <label class="sr" for="email">Email address</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-      <button class="btn btn--ink" type="submit">Notify me</button>
+      <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required>
+      <button class="btn btn--solid" type="submit">Sign up</button>
     </form>
     <p class="signup__msg" id="signupMsg" role="status"></p>
     <p class="signup__note">Not yet connected — point the form at Formspree, Mailchimp or Beehiiv before launch.</p>
@@ -265,19 +335,22 @@
 <footer class="footer">
   <div class="wrap footer__grid">
     <div class="footer__brand">
-      <span class="brand__name">LUXESCENT</span> <span class="brand__sub">UK</span>
-      <p>Elevating everyday journeys through luxury scent. Handcrafted in the United Kingdom.</p>
+      <span class="brand__name">LuxeScent</span>
+      <span class="brand__sub">United Kingdom</span>
+      <p>Elevating everyday journeys through luxury scent. Handcrafted by hand in the United Kingdom.</p>
     </div>
     <nav class="footer__col" aria-label="Shop links">
       <h4>Shop</h4>
-      <a href="#collection">Collection</a>
-      <a href="#product">The Diffuser</a>
+      <a href="#collection">The Collection</a>
+      <a href="#diffuser">The Diffuser</a>
+      <a href="#gifting">Gifting</a>
       <a href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Etsy Shop</a>
     </nav>
-    <nav class="footer__col" aria-label="Company links">
-      <h4>Company</h4>
+    <nav class="footer__col" aria-label="Discover links">
+      <h4>Discover</h4>
+      <a href="#finder">Scent Finder</a>
+      <a href="#families">Scent Families</a>
       <a href="#story">Our Story</a>
-      <a href="#faq">FAQ</a>
       <a href="#reviews">Reviews</a>
     </nav>
     <div class="footer__col">
@@ -285,6 +358,7 @@
       <a href="mailto:hello@luxescent.co.uk">hello@luxescent.co.uk</a>
       <a href="https://www.instagram.com/luxescentuk" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.etsy.com/uk/shop/LuxeScentUK" target="_blank" rel="noopener">Message us on Etsy</a>
+      <a href="#faq">FAQ</a>
     </div>
   </div>
   <div class="wrap footer__base">
@@ -292,6 +366,15 @@
     <p class="footer__legal">All trademarks are the property of their respective owners. LuxeScent UK is not affiliated with or endorsed by any fragrance house; our blends are original interpretations.</p>
   </div>
 </footer>
+
+<!-- ══════════ QUICK VIEW ══════════ -->
+<div class="modal" id="modal" hidden>
+  <div class="modal__scrim" data-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <button class="modal__x" aria-label="Close" data-close>×</button>
+    <div class="modal__body" id="modalBody"><!-- generated --></div>
+  </div>
+</div>
 
 <script src="assets/js/main.js"></script>
 </body>
