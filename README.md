@@ -37,15 +37,14 @@ build-preview.py           optional: builds a single-file preview.html
 | What | Where |
 |---|---|
 | Scents, key notes, prices, badges, pairings | `SCENTS` array at the top of `assets/js/main.js` |
-| Scent families | `FAMILIES` array, same file |
 | Scent Finder questions | `QUESTIONS` array, same file |
+| Family names | `FAMILIES` array, same file |
 | Etsy / Instagram links, price | constants at the top of `main.js` |
 | Colours, fonts, spacing | `:root` block at the top of `styles.css` |
 | Copy, FAQ, reviews, footer | directly in `index.html` |
 
-Adding a tenth scent means adding one object to `SCENTS`. The favourites rail,
-the collection grid, the filters, the quick view and the Scent Finder all pick
-it up automatically.
+Adding a tenth scent means adding one object to `SCENTS`. The collection grid,
+the filters, the quick view and the Scent Finder all pick it up automatically.
 
 ## Interactive features
 
@@ -55,24 +54,31 @@ Adapted from the Jo Malone London playbook, rebuilt to work as static files:
   scored against the answers (primary family counts double); equally-matched
   blends rotate on the answer path, so the tool doesn't always name the same
   bottle. Deterministic, no randomness.
-- **Fragrant Favourites rail** — a scroll-snapping carousel with arrow controls.
 - **Quick view** — opens a panel per scent with the full key notes, the clear
   and dark glass options, and a pairing suggestion that links straight through
   to that second scent. Closes on Escape, scrim click, or the ×.
-- **Scent families** — four tiles that jump to the collection with that filter
-  already applied.
+- **Family filters** on the collection — fresh, woody, amber, sweet.
 - **Complimentary services strip** — delivery, velvet pouch, made by hand.
 - **Rotating announcement bar** with manual arrows.
-- Filters, sticky header, scroll reveals, accessible focus states, and a
+- Sticky header, scroll reveals, accessible focus states, and a
   `prefers-reduced-motion` path that disables all of it.
 
 ## Design notes
 
-The register is a British fragrance house: ivory ground (`#FAF7F1`), black type,
-hairline rules, and a great deal of air. Display type is **Bodoni Moda** — a
+The register is a British fragrance house. Warm ivory ground (`#FBF6EC`) with a
+sand alternate (`#F2E8D6`), a deep espresso section (`#221A12`) carrying the
+Gifting module, and an antique-gold accent (`#A9884F`) on eyebrows, hairlines,
+the announcement bar and button hovers. Display type is **Bodoni Moda** — a
 Didone, the class of serif the fragrance houses use — with **Jost** for the
-interface. The only accent is `#26314A`, sampled from the smoked glass of the
-bottle, used sparingly.
+interface.
+
+The photography is warm-graded on the way in: the source shots are cool
+blue-white marble, which fought the palette and made the page read washed out.
+`build-preview.py` is not involved in that — the grade is baked into the JPEGs.
+
+The page is deliberately short. There is no favourites carousel, no quote band
+and no scent-families module: the collection is one scroll from the hero, and
+repeating it above itself only lengthened the page.
 
 Two decisions worth knowing about:
 
