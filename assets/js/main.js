@@ -12,6 +12,10 @@ const ETSY_SHOP    = "https://www.etsy.com/uk/shop/LuxeScentUK";
 const ETSY_LISTING = "https://www.etsy.com/uk/listing/4482755390/";
 const INSTAGRAM    = "https://www.instagram.com/luxescentuk";
 const PRICE        = "£8.79";
+/* which blend the hero opens on — Noir's greys sit closest to the
+   brand's black, so the first paint stays on-brand. Set to any id
+   in SCENTS (or "imperium") to change it. */
+const HERO_START   = "noir";
 
 /* family : fresh | woody | amber | sweet  (must match the chips)
    glass  : the tint — the drawn bottle, the arch wash, the hero
@@ -182,7 +186,7 @@ function paintHero(i, userDriven = false){
     heroName.textContent = s.name;
     heroName.classList.remove("is-in"); void heroName.offsetWidth; heroName.classList.add("is-in");
   }
-  if (heroInsp)  heroInsp.textContent  = s.inspired;
+  if (heroInsp)  heroInsp.textContent  = s.inspired.replace(/^inspired by\s*/i, "");
   if (heroLine)  heroLine.textContent  = s.line;
   if (heroNotes) heroNotes.textContent = s.notes;
   if (heroShop)  heroShop.setAttribute("aria-label", `Shop ${s.name} on Etsy`);
@@ -231,7 +235,7 @@ document.getElementById("heroDetails")?.addEventListener("click", e => {
   openQuick(SCENTS[heroIx].id);
 });
 
-paintHero(0);
+paintHero(Math.max(0, SCENTS.findIndex(s => s.id === HERO_START)));
 restartHero();
 
 /* ── longevity meter ──────────────────────────────────────── */
