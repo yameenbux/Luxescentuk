@@ -135,34 +135,6 @@ function vessel(glass, cls = "vessel"){
   </svg>`;
 }
 
-/* ── arch card, used by the hero row and the collection ───── */
-function archCard(s, i){
-  return `
-  <article class="arch" data-family="${s.family.join(" ")}" data-id="${s.id}" style="--c:${s.glass}">
-    <div class="arch__top">
-      <span class="arch__no">${pad(i+1)}</span>
-      <div class="arch__vessel">${vessel(s.glass)}</div>
-    </div>
-    <div class="arch__body">
-      <h3 class="arch__name">${s.name}</h3>
-      <p class="arch__insp">${s.inspired}</p>
-      <p class="arch__line">${s.line}</p>
-      <p class="arch__notes">${s.notes}</p>
-      <div class="arch__foot">
-        <span class="arch__price">${PRICE}</span>
-        <div class="arch__acts">
-          <button class="pill pill--ghost" data-quick="${s.id}">Details</button>
-          <a class="pill" href="${ETSY_LISTING}" target="_blank" rel="noopener">Shop</a>
-        </div>
-      </div>
-    </div>
-  </article>`;
-}
-
-/* ── the collection grid ──────────────────────────────────── */
-const grid = document.getElementById("grid");
-if (grid) grid.innerHTML = SCENTS.map((s,i) => archCard(s,i)).join("");
-
 /* ── ticker ───────────────────────────────────────────────── */
 const tickerBits = [
   "Complimentary UK delivery", "★ 5.0 on Etsy — Star Seller",
@@ -253,75 +225,14 @@ if (heroShelf){
 document.querySelectorAll("[data-hero-step]").forEach(btn =>
   btn.addEventListener("click", () => paintHero(heroIx + Number(btn.dataset.heroStep), true)));
 
+/* full key notes and the pairing suggestion live in the quick view */
+document.getElementById("heroDetails")?.addEventListener("click", e => {
+  lastFocus = e.currentTarget;
+  openQuick(SCENTS[heroIx].id);
+});
+
 paintHero(0);
 restartHero();
-
-/* ── 03 · Note Index ──────────────────────────────────────── */
-function splitNotes(str){
-  return str.replace(/\band\b/gi, ",").split(",").map(n => n.trim()).filter(Boolean);
-}
-const noteMap = new Map();
-SCENTS.forEach(s => splitNotes(s.notes).forEach(n => {
-  const key = n.toLowerCase();
-  if (!noteMap.has(key)) noteMap.set(key, { label:n, ids:[] });
-  const e = noteMap.get(key);
-  if (!e.ids.includes(s.id)) e.ids.push(s.id);
-}));
-
-const cloud    = document.getElementById("cloud");
-const cloudOut = document.getElementById("cloudOut");
-if (cloud){
-  const entries = [...noteMap.values()].sort((a,b) =>
-    b.ids.length - a.ids.length || a.label.localeCompare(b.label));
-  cloud.innerHTML = entries.map(e =>
-    `<button class="note" data-note="${e.label.toLowerCase()}" data-n="${Math.min(4, e.ids.length)}"
-       title="${e.ids.length} blend${e.ids.length > 1 ? "s" : ""}">${e.label}</button>`).join("");
-  const lede = document.getElementById("notesLede");
-  if (lede) lede.textContent =
-    `${entries.length} ingredients across nine fragrances. Choose one and we'll show you every blend that carries it.`;
-}
-
-/* ── filtering ────────────────────────────────────────────── */
-let activeNote = null;
-const gridCount = document.getElementById("gridCount");
-
-function applyFilter({ family = "all", note = null } = {}){
-  activeNote = note;
-  document.querySelectorAll(".chip").forEach(c =>
-    c.classList.toggle("is-active", !note && c.dataset.filter === family));
-  document.querySelectorAll(".note").forEach(n =>
-    n.classList.toggle("is-on", note === n.dataset.note));
-
-  const ids = note ? noteMap.get(note).ids : null;
-  let shown = 0;
-  grid?.querySelectorAll(".arch").forEach(card => {
-    const s  = byId(card.dataset.id);
-    const ok = ids ? ids.includes(s.id) : (family === "all" || s.family.includes(family));
-    card.classList.toggle("is-hidden", !ok);
-    if (ok) shown++;
-  });
-
-  if (gridCount) gridCount.textContent = shown === SCENTS.length
-    ? `All ${SCENTS.length} fragrances`
-    : `${shown} of ${SCENTS.length} fragrances`;
-
-  if (cloudOut) cloudOut.textContent = note
-    ? `${noteMap.get(note).label} appears in ${ids.length} blend${ids.length > 1 ? "s" : ""}: ` +
-      ids.map(id => byId(id).name).join(", ")
-    : "";
-}
-
-document.querySelectorAll(".chip").forEach(chip =>
-  chip.addEventListener("click", () => applyFilter({ family: chip.dataset.filter })));
-
-cloud?.addEventListener("click", e => {
-  const btn = e.target.closest("[data-note]");
-  if (!btn) return;
-  const note = btn.dataset.note;
-  if (activeNote === note){ applyFilter({ family:"all" }); return; }
-  applyFilter({ note });
-  document.getElementById("collection").scrollIntoView({ behavior:"smooth", block:"start" });
-});
 
 /* ── longevity meter ──────────────────────────────────────── */
 function runMeter(){
@@ -543,7 +454,7 @@ const io = new IntersectionObserver(entries => {
 document.querySelectorAll(".reveal, [data-count], #meter").forEach(el => io.observe(el));
 
 /* ── current section in the nav ───────────────────────────── */
-const SECTIONS = ["collection","notes","diffuser","finder","gifting","story"];
+const SECTIONS = ["diffuser","finder","gifting","story"];
 let ticking = false;
 function onScroll(){
   if (ticking) return;
@@ -576,5 +487,4 @@ form?.addEventListener("submit", e => {
   if (ok) form.reset();
 });
 
-applyFilter({ family:"all" });
 document.getElementById("year").textContent = new Date().getFullYear();
