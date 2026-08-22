@@ -408,6 +408,8 @@ ul,ol{list-style:none; padding:0}
 }
 .footer__base{margin-top:clamp(20px,3vw,36px); padding-block:1.6rem; border-top:1px solid rgba(255,255,255,.18); display:flex; flex-wrap:wrap; gap:.8rem 2rem; justify-content:space-between}
 .footer__base p{font-size:.7rem; color:rgba(255,255,255,.5)}
+.credit{color:rgba(255,255,255,.8); border-bottom:1px solid rgba(255,255,255,.3); padding-bottom:.1em; transition:.3s var(--ease)}
+.credit:hover{color:#fff; border-bottom-color:#fff}
 .footer__legal{max-width:62ch}
 
 /* ── quick view ───────────────────────────────────────────── */
