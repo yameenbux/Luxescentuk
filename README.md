@@ -43,13 +43,14 @@ change. If you add a very wide card, the section simply gets taller.
 |---|---|
 | Scents, key notes, prices, badges, pairings | `SCENTS` array at the top of `assets/js/main.js` |
 | Scent Finder questions | `QUESTIONS` array, same file |
-| Family names | `FAMILIES` array, same file |
+| Family names | `FAMILIES` array, same file (used by the Scent Finder result) |
 | Etsy / Instagram links, price | constants at the top of `main.js` |
 | Colours, fonts, spacing | `:root` block at the top of `styles.css` |
 | Copy, FAQ, reviews, footer | directly in `index.html` |
 
-Adding a tenth scent means adding one object to `SCENTS`. The collection grid,
-the filters, the quick view and the Scent Finder all pick it up automatically.
+Adding a tenth scent means adding one object to `SCENTS`. The hero shelf, the
+dots, the name band, the quick view and the Scent Finder all pick it up
+automatically.
 
 ## Interactive features
 
@@ -74,9 +75,10 @@ the filters, the quick view and the Scent Finder all pick it up automatically.
   scored against the answers (primary family counts double); equally-matched
   blends rotate on the answer path, so the tool doesn't always name the same
   bottle. Deterministic, no randomness.
-- **Quick view** — a panel per scent with the full key notes, clear and smoked
-  glass options, and a pairing that links straight through to that second
-  scent. Closes on Escape, scrim click, or the ×.
+- **Quick view** — reached from "Full details" in the hero (and from the Scent
+  Finder result). Shows the full key notes, clear and smoked glass options, and
+  a pairing that links straight through to that second scent. Closes on Escape,
+  scrim click, or the ×.
 - **Numbered navigation** and a **section progress rail** down the right edge.
 - Sticky header, accessible focus states, and a `prefers-reduced-motion` path
   that disables every animation above.
@@ -88,9 +90,14 @@ ground, deep navy type, giant rotated display type, arch-masked photography),
 one for the commercial half (a rounded gradient stage with the product standing
 through the headline, and a shelf of dome-topped product cards along the bottom).
 
-The **arch** is the signature shape — the hero shelf, all nine collection cards,
-every image frame and the quick-view panel use the same `--arch` radius token.
-Change that one value and the whole site changes shape.
+The **arch** is the signature shape — the hero shelf, every image frame and the
+quick-view panel use the same `--arch` radius token. Change that one value and
+the whole site changes shape.
+
+There is no separate collection section and no note index. The nine fragrances
+live entirely in the hero: the shelf of arches along the bottom selects one, and
+"Full details" opens the quick view with its key notes and pairing. That keeps
+the page to nine sections and about 8,200px rather than 12,000px.
 
 Palette: warm white `#F7F5F0`, deep navy `#1F3A5F`, sand `#EFE9DC`. The colour
 comes from the product rather than a brand palette — each blend carries a
@@ -112,6 +119,9 @@ One layout note worth knowing: grid columns are declared `minmax(0,1fr)` rather
 than `1fr` wherever a child can be wider than its column (the hero shelf, the
 editorial type). A plain `1fr` takes its minimum from the widest child and blows
 the column out — that is what caused a horizontal-overflow bug on mobile.
+
+The trademark disclaimer now lives only in the footer, since the collection
+section that used to carry the longer version is gone.
 
 ## Before launch — checklist
 
