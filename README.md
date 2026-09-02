@@ -1,26 +1,23 @@
 # LuxeScent UK — website
 
-Static site for [LuxeScent UK](https://www.etsy.com/uk/shop/LuxeScentUK) — luxury
-car diffusers, handcrafted in the United Kingdom. No build step, no framework,
-no dependencies: plain HTML, one stylesheet, one script. Deploys to GitHub Pages
-as-is.
+Static site for [LuxeScent UK](https://www.etsy.com/uk/shop/LuxeScentUK) — designer-inspired
+car diffusers in glass and blackened wood, made by hand in Bolton. No build step, no
+framework, no dependencies: one HTML file, one stylesheet, one script, two self-hosted
+fonts. Deploys to GitHub Pages as-is.
 
 Repo: https://github.com/yameenbux/Luxescentuk
 Live: https://yameenbux.github.io/Luxescentuk/
 
 ## Deploying an update
 
-Unzip these files into the repo root — they replace `index.html`, `assets/` and
-`README.md` — then:
-
 ```bash
 git add -A
-git commit -m "Site rebuild"
+git commit -m "Site update"
 git push
 ```
 
-GitHub Pages redeploys in about a minute. Hard-refresh once, since the browser
-caches the old stylesheet.
+GitHub Pages redeploys in about a minute. Hard-refresh once, since the browser caches
+the old stylesheet.
 
 ## Structure
 
@@ -28,126 +25,109 @@ caches the old stylesheet.
 index.html                 all page markup
 assets/css/styles.css      all styling — design tokens in :root at the top
 assets/js/main.js          scent data + every interactive feature
+assets/fonts/              Archivo + Fraunces, variable, latin subset
 assets/images/             brand photography (see images/README.md)
-build-preview.py           optional: builds a single-file preview.html
 ```
-
-The pinned collection is the only fragile piece: `layoutPin()` measures the
-track and sets the section's height, and `onPinScroll()` converts vertical
-scroll into horizontal travel. Both re-run on resize and after any filter
-change. If you add a very wide card, the section simply gets taller.
 
 ## Editing the essentials
 
 | What | Where |
 |---|---|
-| Scents, key notes, prices, badges, pairings | `SCENTS` array at the top of `assets/js/main.js` |
+| Scents, key notes, colours, pairings | `SCENTS` array at the top of `assets/js/main.js` |
+| Which blend the page opens on | `HERO_START` constant, same file |
 | Scent Finder questions | `QUESTIONS` array, same file |
-| Family names | `FAMILIES` array, same file (used by the Scent Finder result) |
 | Etsy / Instagram links, price | constants at the top of `main.js` |
 | Colours, fonts, spacing | `:root` block at the top of `styles.css` |
 | Copy, FAQ, reviews, footer | directly in `index.html` |
 
-Adding a tenth scent means adding one object to `SCENTS`. The hero shelf, the
-dots, the name band, the quick view and the Scent Finder all pick it up
-automatically.
+Adding a tenth scent means adding one object to `SCENTS`. The hero, the shelf, the dots,
+the quick view and the Scent Finder all pick it up automatically.
+
+## The rebrand — what changed and why
+
+The previous build was warm cream, marble flat-lays and arch-framed photography. It was
+well made, but it was branded as a perfume boutique, and there was no car anywhere on the
+page. This one moves the brand into the place the product actually lives: **a car interior
+after dark.**
+
+Everything follows from that one decision.
+
+- **Ground.** Lacquer black with blue in it — car paint under streetlights — rather than
+  warm white. Two light temperatures and only two: sodium amber from outside the glass,
+  and the colour of whichever fragrance is loaded.
+- **Shape.** The rear-view mirror, drawn once. It was tried as a photo frame too and made
+  eggs, so it stays in the hero where it means something.
+- **Type.** Fraunces for the fragrance names — warm, slightly wonky, a workshop in Bolton
+  rather than a Paris fashion house — against Archivo Expanded for every label and
+  control, which is the badge typography of a car.
+- **Photography.** The same JPEGs, graded cold and dim so they read as lit plates in a dark
+  cabin, warming on hover.
+
+The fonts are served from `assets/fonts/` rather than `fonts.googleapis.com`. That removes
+a render-blocking third-party request and stops handing every visitor's IP to Google,
+which is worth having on a UK shop that collects email addresses.
 
 ## Interactive features
 
-- **Pinned horizontal collection** — the section holds still while the nine
-  blends travel sideways in step with your scroll. The filter chips stay pinned
-  above the track, a progress bar tracks position, and the background glow takes
-  the colour of whichever blend is nearest the middle. Below 760px, and for
-  anyone with reduced motion switched on, it becomes an ordinary stacked list.
-- **Note Index** — every ingredient across all nine blends (49 of them),
-  extracted from the `notes` strings at load, sized by how many fragrances carry
-  it. Click one and the collection filters to the blends containing it. Nothing
-  else in this market has this.
-- **Rotating hero name** — the headline cycles through the nine fragrance names,
-  and the page's accent colour changes with it.
-- **Ticker and dual marquee** — a gold offers ticker at the top, and a two-row
-  counter-scrolling band of the nine names below the hero, one row outlined and
-  one row ghosted.
-- **Longevity meter** — an eight-week bar that fills as the section comes into
-  view, counting Week 0 → Week 8.
-- **Animated stat row** — nine fragrances, 6–8 weeks, 5.0 rating, £8.79.
-- **Scent Finder** — three questions, then a matched blend. Every scent is
-  scored against the answers (primary family counts double); equally-matched
-  blends rotate on the answer path, so the tool doesn't always name the same
-  bottle. Deterministic, no randomness.
-- **Quick view** — reached from "Full details" in the hero (and from the Scent
-  Finder result). Shows the full key notes, clear and smoked glass options, and
-  a pairing that links straight through to that second scent. Closes on Escape,
-  scrim click, or the ×.
-- **Numbered navigation** and a **section progress rail** down the right edge.
-- Sticky header, accessible focus states, and a `prefers-reduced-motion` path
-  that disables every animation above.
+The three moving parts specific to this build all run off **one** `requestAnimationFrame`
+loop, which stops when the hero scrolls off screen or the tab is hidden, and never starts
+at all under `prefers-reduced-motion`.
 
-## Design notes
+- **The pendulum.** The diffuser hangs from the mirror on a real damped pendulum,
+  integrated at a fixed 60Hz step so it behaves the same on a 144Hz monitor. You can grab
+  it and throw it — the release carries your momentum. Scrolling leans it the way taking a
+  bend would, and two detuned sine waves stand in for road vibration so it never looks
+  looped.
+- **The diffusion.** Pressing the bottle releases a burst of tinted particles that rise and
+  spread. Drawn additively, so overlapping vapour reads as light rather than paint. Rate
+  limited to one dose every 620ms — without that, mashing the bottle stacks enough
+  particles to white out the whole hero.
+- **The road.** Streetlights and oncoming headlights, blurred by speed into horizontal
+  streaks. Deliberately slow and low-contrast: atmosphere behind the type, not a
+  screensaver.
 
-Two reference sites set the direction: one for the editorial half (warm white
-ground, deep navy type, giant rotated display type, arch-masked photography),
-one for the commercial half (a rounded gradient stage with the product standing
-through the headline, and a shelf of dome-topped product cards along the bottom).
+Plus: a **range gauge** that sweeps E→F and counts to eight weeks, an **instrument cluster**
+of counters, the **Scent Finder** (three questions, every scent scored against the answers,
+ties rotating on the answer path so it doesn't always name the same bottle — and the
+result loads into the hero, so the page's light changes to match), a **quick view** with
+the full notes and a pairing, and the nine-blend **shelf**.
 
-The **arch** is the signature shape — the hero shelf, every image frame and the
-quick-view panel use the same `--arch` radius token. Change that one value and
-the whole site changes shape.
+The hero auto-advances every 6.4 seconds until you touch anything, then stops for good.
 
-There is no separate collection section and no note index. The nine fragrances
-live entirely in the hero: the shelf of arches along the bottom selects one, and
-"Full details" opens the quick view with its key notes and pairing. That keeps
-the page to nine sections and about 8,200px rather than 12,000px.
+**Performance.** Particle and streak colours are baked into offscreen sprites once and
+blitted, rather than building a canvas gradient per particle per frame — that was the one
+thing here that would have dropped frames. Particle budget halves below 760px.
 
-Palette: warm white `#F7F5F0`, deep navy `#1F3A5F`, sand `#EFE9DC`. The colour
-comes from the product rather than a brand palette — each blend carries a
-`glass` value and a two-stop `grad`, so the hero and the Scent Finder are
-literally tinted by whichever fragrance is on screen. Type is **Jost**
-throughout, 200 to 700; hierarchy is weight and scale, not a second family.
+## Accessibility
 
-**The bottle is drawn, not photographed.** There is no cut-out product shot in
-the set, and a hero like this needs one with a transparent background. The SVG
-in `vessel()` draws the actual vessel — blackened wood cap, woven cord, tinted
-glass with a liquid level and highlights — and takes the tint of whichever blend
-it represents. It scales to any size and weighs nothing. If you ever shoot the
-range cut out on white, that is the single asset that would upgrade this page
-most.
-
-The photography is warm-graded on the way in; the grade is baked into the JPEGs.
-
-One layout note worth knowing: grid columns are declared `minmax(0,1fr)` rather
-than `1fr` wherever a child can be wider than its column (the hero shelf, the
-editorial type). A plain `1fr` takes its minimum from the widest child and blows
-the column out — that is what caused a horizontal-overflow bug on mobile.
-
-The trademark disclaimer now lives only in the footer, since the collection
-section that used to carry the longer version is gone.
+Every animation above is switched off under `prefers-reduced-motion` — the pendulum never
+starts, the canvases never draw, the gauge and counters jump to their final values, and
+reveals are visible from the start. The bottle is a real `<button>`: Enter or Space
+releases the scent. Focus is visible throughout, the quick view closes on Escape and
+returns focus, and no interaction is pointer-only.
 
 ## Before launch — checklist
 
+- [ ] **Shoot a diffuser hanging from a rear-view mirror, in daylight and at dusk.** The
+      whole brand is now built around a car interior and there is still not one photograph
+      of the product in a car. The mirror in the hero is drawn. This is the single highest
+      value thing you can do for the site.
 - [ ] Replace placeholder review text with verbatim Etsy reviews + first names
 - [ ] Set a real contact email in the footer (currently `hello@luxescent.co.uk`)
 - [ ] Connect the signup form to Formspree / Mailchimp / Beehiiv
-- [ ] Review the `pairs:` suggestions in `SCENTS` — those are editorial
-      recommendations written for you, not something you told us
-- [ ] Review the `line:` one-liners on each scent for the same reason
-- [ ] The Note Index lists your wording verbatim, so near-duplicates appear
-      separately — "Bergamot" and "Bergamot Heart", "Cedar" / "Cedarwood" /
-      "Cedar Wood Heart", "Patchouli" / "Patchouli Heart". Tidy the `notes`
-      strings if you want them merged
+- [ ] Review the `pairs:` and `line:` fields in `SCENTS` — those are editorial suggestions
+      written for you, not something you told us
 - [ ] Add `logo.png` and `favicon.png` if you want them (see images/README.md)
-- [ ] Shoot an in-car photograph — the site still has no lifestyle shot
 - [ ] Confirm delivery and returns wording matches your Etsy policy
 - [ ] Add `privacy.html` and `terms.html` once you collect emails (UK GDPR)
 
 ## Note on designer comparisons
 
-Etsy tolerates "inspired by <designer>" listings because Etsy carries the risk.
-On your own domain you are the publisher. UK law permits honest comparative
-reference to a trademark, but Creed, Chanel, LVMH and L'Oréal all send letters.
-This build keeps the comparison out of every product name, sets it in small
-type, and carries a disclaimer under the collection and in the footer. That is
-mitigation, not immunity.
+Etsy tolerates "inspired by <designer>" listings because Etsy carries the risk. On your own
+domain you are the publisher. UK law permits honest comparative reference to a trademark,
+but Creed, Chanel, LVMH and L'Oréal all send letters. This build keeps the comparison out
+of every product name, sets it in small type, and carries a disclaimer in the footer. That
+is mitigation, not immunity.
 
-To remove the exposure entirely, delete the `inspired` field from each scent in
-`main.js`; the cards and the quick view are built to close up without it.
+To remove the exposure entirely, delete the `inspired` field from each scent in `main.js`;
+the hero and the quick view are built to close up without it.
